@@ -1,6 +1,75 @@
 import '../../scss/pages/about.scss';
-
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap//ScrollTrigger';
+import { loadLottie } from '../../utils/loadLottie';
+import '../../scss/pages/about.scss';
+import { useEffect } from 'react';
 function About (){
+  useEffect(() => {
+    const handleLottieAnimations = async () => {
+        const animationContainers = document.querySelectorAll('.lottie-animation-container');
+
+        for (const container of animationContainers) {
+            const jsonFile = container.getAttribute('data-animation-json');
+            const animation = await loadLottie(jsonFile, container);
+
+            if (animation) {
+                // ScrollTrigger.create({
+                //     trigger: container,
+                //     start: 'top center',
+                //     end: 'bottom center',
+                //     onEnter: () => animation.play(),
+                // });
+            }
+        }
+    };
+
+    const ourLeadership = () => {
+        const graphicTrigger = document.querySelector('.our-leadership-graphic');
+        const hexagon = document.querySelectorAll('.our-leadership-graphic .hexagon');
+        const persons = document.querySelectorAll('.our-leadership-graphic .person');
+        const tooltip = document.querySelector('.our-leadership-graphic .tooltip');
+
+        gsap.set(gsap.utils.toArray(persons), {
+            opacity: 0,
+            scale: 0.75
+        });
+
+        gsap.set(tooltip, {
+            opacity: 0
+        });
+
+        gsap.set(hexagon, {
+            opacity: 0,
+            scale: 0
+        });
+
+        const duration = 0.5;
+        const ease = 'expo.out';
+
+        const tl = gsap.timeline({ paused: true });
+
+        tl.to(hexagon, { opacity: 1, scale: 1, duration: duration, ease: ease });
+        tl.to(persons[0], { opacity: 1, scale: 1, duration: duration, ease: ease });
+        tl.to(tooltip, { opacity: 1, duration: duration, ease: ease });
+
+        for (let index = 1; index < 6; index++) {
+            tl.to(persons[index], { opacity: 1, scale: 1, duration: duration, ease: ease }, `>-25%`);
+        }
+
+        // ScrollTrigger.create({
+        //     trigger: graphicTrigger,
+        //     id: 'leadershipGraphic',
+        //     start: 'top center',
+        //     end: 'top center',
+        //     animation: tl,
+        //     toggleActions: 'play none none none',
+        // });
+    };
+
+    handleLottieAnimations();
+    ourLeadership();
+}, []);
     return(
         <>
             <header>
@@ -208,6 +277,10 @@ function About (){
                   <img src="img/icons/play.svg" class="filter-invert" alt="" />
                 </a>
               </div>
+              <div class="line-draw js-draw-path" style={{opacity: 1}}> <svg class="d-none d-md-block" viewBox="0 0 1440 482" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1.17462 481C-7.49167 468.41 34.4021 427.736 41.5665 420.638C195.948 267.693 520.651 400.998 707.047 399.85C729.982 399.708 756.813 397.634 776.502 384.07C791.41 373.8 782.924 343.788 774.654 332.224C728.63 267.869 719.982 369.417 846.264 353.138C947.189 353.138 951.347 87.0108 1050.13 226.779C1181.18 412.197 1236.47 45.3321 1321.79 6.62053C1358.26 -9.92716 1407.51 12.19 1440 45.2334" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDashArray: 1929.13, strokeDashOffset: -0.00306396}}></path> </svg> <svg class="d-block d-md-none" width="375" height="119" viewBox="0 0 375 119" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M375 29.8708C373.325 27.8072 371.628 25.5813 369.907 23.1868C315.026 -53.1685 312.716 92.2172 256.647 92.2172C186.49 101.11 191.295 45.6344 216.864 80.7918C221.458 87.1088 226.172 103.505 217.89 109.115C206.952 116.525 192.046 117.658 179.304 117.736C130.59 118.031 64.8721 102.071 0 93.783" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDashArray: 517.89, strokeDashOffset: -0.0082487}}></path> </svg> </div>
+              {/* <div class="line-draw js-draw-path" style="opacity: 1;"> <svg class="d-none d-md-block" viewBox="0 0 1440 482" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M1.17462 481C-7.49167 468.41 34.4021 427.736 41.5665 420.638C195.948 267.693 520.651 400.998 707.047 399.85C729.982 399.708 756.813 397.634 776.502 384.07C791.41 373.8 782.924 343.788 774.654 332.224C728.63 267.869 719.982 369.417 846.264 353.138C947.189 353.138 951.347 87.0108 1050.13 226.779C1181.18 412.197 1236.47 45.3321 1321.79 6.62053C1358.26 -9.92716 1407.51 12.19 1440 45.2334" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDashArray: 1929.13, strokeDashOffset: -0.00306396}}></path> </svg> <svg class="d-block d-md-none" width="375" height="119" viewBox="0 0 375 119" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M375 29.8708C373.325 27.8072 371.628 25.5813 369.907 23.1868C315.026 -53.1685 312.716 92.2172 256.647 92.2172C186.49 101.11 191.295 45.6344 216.864 80.7918C221.458 87.1088 226.172 103.505 217.89 109.115C206.952 116.525 192.046 117.658 179.304 117.736C130.59 118.031 64.8721 102.071 0 93.783" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDashArray: 517.89, strokeDashOffset: -0.0082487}}></path> </svg> </div> */}
+              {/* <svg class="d-none d-md-block" viewBox="0 0 1440 482" fill="none" xmlns="http://www.w3.org/2000/svg"> */}
+              {/* <path d="M1.17462 481C-7.49167 468.41 34.4021 427.736 41.5665 420.638C195.948 267.693 520.651 400.998 707.047 399.85C729.982 399.708 756.813 397.634 776.502 384.07C791.41 373.8 782.924 343.788 774.654 332.224C728.63 267.869 719.982 369.417 846.264 353.138C947.189 353.138 951.347 87.0108 1050.13 226.779C1181.18 412.197 1236.47 45.3321 1321.79 6.62053C1358.26 -9.92716 1407.51 12.19 1440 45.2334" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDashArray: 1929.13,strokeDashOffset: -0.00306396}}></path> </svg> */}
             </div>
           </div>
         </section>

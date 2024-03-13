@@ -5,12 +5,12 @@ import Swiper from "swiper";
 import 'swiper/swiper-bundle.css';
 import { useGSAP } from "@gsap/react";
 // import gsap from "gsap";
-import '../scss/utilities/__effect-carousel.scss';
-import '../scss/pages/home.scss';
+import '../../scss/utilities/__effect-carousel.scss';
+import '../../scss/pages/home.scss';
 
 // Swiper
 // import Swiper from 'swiper';
-import EffectCarousel from '../utils/effect-carousel.esm.js';
+import EffectCarousel from '../../utils/effect-carousel.esm.js';
 import {Thumbs, Autoplay, Pagination, Navigation} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';

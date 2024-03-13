@@ -5,23 +5,24 @@ import Hexagon from "../../img/leadership/lottie/05_hexagon.json"
 // import Hexagon from '';
 import { useEffect } from 'react';
 function Leadership (){
+    
     useEffect(() => {
         const teamModal = () => {
             const trigger = document.querySelectorAll('.js-member-modal');
             const body = document.body;
-
+        
             let tl,
                 modal,
                 modalClose,
                 modalContent,
                 lottieHexagon,
                 modalHexagon;
-
+        
             const setModalContent = (element) => {
                 // create lottie hexagon div
                 modalHexagon = document.createElement('div');
                 modalHexagon.classList.add('modal-lottie');
-
+        
                 lottieHexagon = lottie.loadAnimation({
                     container: modalHexagon,
                     renderer: 'svg',
@@ -32,37 +33,37 @@ function Leadership (){
                         scaleMode: 'noScale', clearCanvas: false, progressiveLoad: true, hideOnTransparent: true
                     },
                 });
-
+        
                 // create master modal div
                 modal = document.createElement('div');
                 modal.classList.add('f-modal');
-
+        
                 // create modal divs
                 modalClose = document.createElement('div');
-                modalContent = document.createElement('div');
+                const modalContent = document.createElement('div');
                 const memberLayout = document.createElement('div');
-
+        
                 // add classes to modal divs
                 modalClose.classList.add('f-modal-close');
                 modalContent.classList.add('f-modal-content');
                 memberLayout.classList.add('member-layout');
-
+        
                 // assemble modal divs
                 modal.append(modalContent);
                 memberLayout.append(modalClose);
                 modalContent.append(memberLayout);
-
+        
                 // create member layout divs
                 const memberLayoutPhoto = document.createElement('div');
                 const memberLayoutContent = document.createElement('div');
                 const memberLayoutScrollable = document.createElement('div');
-
+        
                 // add classes to member layout divs
                 memberLayoutPhoto.classList.add('photo');
                 memberLayoutContent.classList.add('content');
                 memberLayoutScrollable.classList.add('scrollable');
                 memberLayoutScrollable.classList.add('js-scrollable');
-
+        
                 // set content from the target element
                 memberLayoutPhoto.innerHTML = `
                 ${element.querySelector('.photo').innerHTML}
@@ -73,32 +74,33 @@ function Leadership (){
                         ${element.querySelector('.name').outerHTML}
                         ${element.querySelector('.job').outerHTML}
                         <div class="buttons">
-                            <button class="btn btn-link" >
+                            <a href="#" class="btn btn-link">
                                 View LinkedIn
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7 17.3076L17 7.30762M17 7.30762H7M17 7.30762V17.3076" stroke="#131316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                            </button>
+                            </a>
                         </div>
                         ${element.querySelector('.description').outerHTML}
                     </div>
                 </div>
                 `;
-
+        
                 lottieHexagon.addEventListener('DOMLoaded', () => {
                     memberLayoutPhoto.append(modalHexagon);
                 });
-
+        
                 // assemble member layout
                 memberLayout.append(memberLayoutPhoto);
                 memberLayout.append(memberLayoutContent);
                 memberLayoutContent.append(memberLayoutScrollable);
-
+        
                 document.body.append(modal); // append modal to body
-
+        
                 // animate opening modal
                 openModal(element);
             };
+        
 
             const openModal = (element) => {
                 tl = gsap.timeline({reversed: true, pause: true});
@@ -121,7 +123,7 @@ function Leadership (){
                         body.classList.remove('overflow-hidden');
                         modal.classList.remove('open');
                         modal.remove();
-                            
+                        // modalHexagon.style.display                   
                         // modalHexagon.destroy();
                     }
                 }, '<+0.1').to(modalContent, {
@@ -364,6 +366,7 @@ return(
               src="img/leadership/ColorsHero@mobile.svg"
               alt=""
             />
+            
           </div>
           <div class="container">
             <div class="hero-content">
@@ -380,6 +383,10 @@ return(
               </p>
             </div>
           </div>
+          <svg class="d-none d-md-block" viewBox="0 0 1440 293" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M-12.5 230.5C110.5 -154 471.5 273.5 767 220.5C1062.5 167.5 1156.31 121.674 1129.5 89.4999C1084.5 35.4999 970.841 391.079 1224 264.5C1477.16 137.921 1398 1 1538.5 1" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDasharray: '2093.39',
+    strokeDashoffset: '-0.00339316'}}></path>
+            </svg>
         </section>
         <section class="shared-section section-team pb-0">
           <div class="decor">

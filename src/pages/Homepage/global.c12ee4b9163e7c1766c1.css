@@ -519,7 +519,7 @@ header {
   position: relative;
 }
 .navbar-nav-mobile .nav-item > .nav-link:after {
-  background: url(../img/icons/chevron.svg) no-repeat 50% / contain;
+  background: url(../../img/icons/chevron.svg) no-repeat 50% / contain;
   content: "";
   height: 24px;
   position: absolute;
@@ -1216,7 +1216,7 @@ a:focus {
   padding: 8px 16px;
 }
 .form-select:after {
-  background: url(../img/icons/chevron.svg) no-repeat 50% / contain;
+  background: url(../../img/icons/chevron.svg) no-repeat 50% / contain;
   content: "";
   height: 24px;
   pointer-events: none;
@@ -1249,7 +1249,7 @@ a:focus {
   position: relative;
 }
 .dropdown-list .dropdown-list-item:after {
-  background: url(../img/icons/check.svg) no-repeat 50% / contain;
+  background: url(../../img/icons/check.svg) no-repeat 50% / contain;
   content: "";
   display: none;
   height: 16px;
@@ -1282,7 +1282,7 @@ a:focus {
   position: relative;
 }
 .dropdown-toggler:after {
-  background: url(../img/icons/chevron.svg) no-repeat 50% / contain;
+  background: url(../..//img/icons/chevron.svg) no-repeat 50% / contain;
   content: "";
   height: 24px;
   pointer-events: none;
