@@ -60,14 +60,6 @@ function About (){
             tl.to(persons[index], { opacity: 1, scale: 1, duration: duration, ease: ease }, `>-25%`);
         }
 
-        // ScrollTrigger.create({
-        //     trigger: graphicTrigger,
-        //     id: 'leadershipGraphic',
-        //     start: 'top center',
-        //     end: 'top center',
-        //     animation: tl,
-        //     toggleActions: 'play none none none',
-        // });
     };
 
     handleLottieAnimations();
