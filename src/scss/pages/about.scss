@@ -150,6 +150,10 @@
     color: rgba(clr(primary), 0.8);
     margin-top: 32px;
   }
+
+  .row .media .lottie-animation-container path {
+    stroke-width: 1.5;
+  }
 }
 
 .section-value {
@@ -405,6 +409,10 @@
     height: auto;
   }
 
+  .our-leadership-graphic .person img {
+    width: 100%;
+  }
+
   .our-leadership-graphic .person-1 {
     width: 32%;
     top: 50%;
@@ -441,13 +449,32 @@
     left: 65%;
   }
 
-  .our-leadership-graphic .tooltip {
-    position: absolute;
-    translate: -50% -50%;
-    top: 63%;
-    left: 74%;
-    width: 53%;
-    height: auto;
-    z-index: 2;
+  .tooltip-content {
+    display: none;
+  }
+}
+
+.tooltip {
+  position: fixed;
+  padding: 10px 12px;
+  background-color: rgba(clr(white), 0.8);
+  backdrop-filter: blur(16px);
+  color: clr(primary);
+  border-radius: 6px;
+  box-shadow: 0 4px 44px 0 rgba(clr(primary), 0.25);
+
+  .name {
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 4px;
+  }
+
+  .position {
+    font-size: 12px;
+    line-height: 1.33;
+    letter-spacing: -0.015em;
+    color: rgba(clr(primary), 0.8);
   }
 }

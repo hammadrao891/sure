@@ -1,7 +1,171 @@
-
+import { useEffect } from 'react';
+import '../../scss/pages/home.scss';
+import '../../scss/utilities/__effect-carousel.scss'
+import {gsap} from 'gsap';
+import EffectCarousel from '../../utils/effect-carousel.esm.js';
+import {Thumbs, Autoplay, Pagination, } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import Swiper from "swiper";
+// import '../../scss/app.scss';
+// import '../../scss/main.scss';
+import "../../css/global.c12ee4b9163e7c1766c1.css"
 
 function Carousel ()
 {
+  useEffect(() => {
+    const heroCarousel = () => {
+      Swiper.use([Thumbs]);
+  
+      const swiperThumbsContainer = document.querySelector('.swiper-carousel-pagination');
+      const swiperMainContainer = document.querySelector('.swiper-carousel');
+  
+      if (swiperMainContainer) {
+          // Store a reference for the animation frame request
+          let animationFrameRequest = [];
+  
+          function updateProgressBars(activeIndex, duration) {
+              const progressBars = swiperThumbsContainer.querySelectorAll('.progress-bar');
+  
+              progressBars.forEach((bar, index) => {
+                  // Cancel the ongoing animation for this bar
+                  if (animationFrameRequest[index]) {
+                      cancelAnimationFrame(animationFrameRequest[index]);
+                  }
+  
+                  bar.style.transform = 'scaleX(0)';
+  
+                  if (index === activeIndex) {
+                      animateProgressBar(bar, duration, index);
+                  }
+              });
+          }
+  
+          function animateProgressBar(progressBar, duration, index) {
+              let startTime;
+              let step = (timestamp) => {
+                  if (!startTime) startTime = timestamp;
+                  let elapsed = timestamp - startTime;
+                  let progress = Math.min(elapsed / duration, 1);
+  
+                  progressBar.style.transform = `scaleX(${progress})`;
+  
+                  if (elapsed < duration) {
+                      animationFrameRequest[index] = requestAnimationFrame(step);
+                  }
+              };
+              animationFrameRequest[index] = requestAnimationFrame(step);
+          }
+  
+          let swiperThumbs = new Swiper(swiperThumbsContainer, {
+              spaceBetween: 10,
+              slidesPerView: 'auto',
+              watchSlidesProgress: true,
+          });
+  
+          const swiperMain = new Swiper(swiperMainContainer, {
+              modules: [EffectCarousel, Autoplay, Pagination],
+              slidesPerView: 'auto',
+              noSwipingClass: swiperMainContainer.className,
+              init: false,
+              loop: true,
+              autoplay: {
+                  delay: 6000,
+                  pauseOnMouseEnter: false,
+                  disableOnInteraction: false,
+              },
+              effect: 'carousel',
+              carouselEffect: {
+                  sideSlides: 1,
+              },
+              thumbs: {
+                  swiper: swiperThumbs,
+              },
+              pagination: {
+                  el: swiperMainContainer.parentNode.querySelector('.swiper-pagination'),
+                  clickable: true,
+                  renderBullet: function (index, className) {
+                      return `<span class="${className}">
+                                  <svg width="20" height="20">
+                                      <circle class="bg" r="7" cx="10" cy="10" fill="none"></circle>
+                                      <circle class="progress" r="7" cx="10" cy="10" fill="none"></circle>
+                                  </svg>
+                              </span>`;
+                  },
+              },
+              breakpoints: {
+                  0: {
+                      initialSlide: 0,
+                  },
+                  768: {
+                      initialSlide: 0,
+                  }
+              },
+              on: {
+                  init: (swiper) => {
+                      const activeSlide = swiper.slides[swiper.activeIndex];
+                      const activeCaption = activeSlide.querySelector('.caption');
+  
+                      Array.from(swiper.slides).forEach((slide) => {
+                          gsap.set(slide.querySelector('.caption'), {
+                              opacity: 0,
+                              scale: 0.75
+                          });
+                      });
+  
+                      gsap.to(activeCaption, {
+                          duration: .2,
+                          opacity: 1,
+                          scale: 1
+                      });
+  
+                      let realIndex = swiper.realIndex;
+                      updateProgressBars(realIndex, swiper.params.autoplay.delay || 5000);
+                  },
+                  slideChange: (swiper) => {
+                      const activeSlide = swiper.slides[swiper.activeIndex];
+                      const activeCaption = activeSlide.querySelector('.caption');
+  
+                      Array.from(swiper.slides).forEach((slide) => {
+                          if (activeCaption !== slide.querySelector('.caption')) {
+                              gsap.to(slide.querySelector('.caption'), {
+                                  duration: .2,
+                                  opacity: 0,
+                                  scale: 0.75
+                              });
+                          }
+                      });
+                  },
+                  slideChangeTransitionStart: (swiper) => {
+                      let realIndex = swiper.realIndex;
+                      updateProgressBars(realIndex, swiper.params.autoplay.delay || 5000);
+                  },
+                  slideChangeTransitionEnd: (swiper) => {
+                      const activeSlide = swiper.slides[swiper.activeIndex];
+                      const activeCaption = activeSlide.querySelector('.caption');
+  
+                      gsap.to(activeCaption, {
+                          duration: .2,
+                          opacity: 1,
+                          scale: 1
+                      });
+                  }
+              }
+          });
+  
+          swiperMain.on('init', (e) => {
+              e.slideNext();
+          });
+  
+          swiperMain.init();
+      }
+  };
+      
+      
+      heroCarousel();
+      
+  }, []);
     return(
         <>
             

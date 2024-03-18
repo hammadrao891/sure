@@ -1,7 +1,7 @@
 import '../scss/app.scss';
 
 /// gsap
-import {gsap, Expo} from 'gsap';
+import {Expo, gsap} from 'gsap';
 import {ScrollToPlugin} from 'gsap/ScrollToPlugin';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 
@@ -12,6 +12,7 @@ import SplitType from 'split-type';
 import initiateObserver from './utils/revealObserver';
 
 document.addEventListener('DOMContentLoaded', () => {
+    fixNavbarOnScroll();
     mobileNavigation();
     mobileCollapseMenu();
     scrollToAnchor();
@@ -19,9 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
     languageSelector();
     handleSplitToLines();
     handleRevealOnScroll();
+    handleRevealCTA();
+    videoModal();
     initiateObserver();
 });
 
+// Fixed navbar on scroll
+const fixNavbarOnScroll = () => {
+    const navbar = document.querySelector('header');
+    const triggerPoint = 50;
+
+    const updateNavbar = (e) => {
+        if (window.scrollY > triggerPoint) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    };
+
+    if (navbar) {
+        window.addEventListener('scroll', updateNavbar);
+    }
+};
+
+// Split text to lines
 const handleSplitToLines = () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -239,6 +261,37 @@ const handleRevealOnScroll = () => {
     });
 };
 
+const handleRevealCTA = () => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const elementToReveal = document.querySelectorAll('.js-reveal-cta');
+    const staggerDuration = 0.4;
+
+    const animateIn = (batch) => {
+        gsap.to(batch, {
+            opacity: 1,
+            stagger: staggerDuration,
+        });
+    };
+
+    elementToReveal.forEach((element, i) => {
+        let r = getComputedStyle(document.querySelector(':root'));
+        let globalPaddingY = parseInt(r.getPropertyValue('--sectionPaddingY'));
+
+        gsap.set(element, {
+            'will-change': 'transform, opacity',
+            opacity: 0,
+        });
+
+        ScrollTrigger.batch(elementToReveal, {
+            start: () => `top top`,
+            end: () => `top top`,
+            invalidateOnRefresh: true,
+            onEnter: (batch) => animateIn(batch),
+        });
+    });
+};
+
 // Mobile navigation
 const mobileNavigation = () => {
     let mobileToggler = document.querySelector('.navbar-menu-toggler'),
@@ -246,18 +299,44 @@ const mobileNavigation = () => {
         body = document.body;
 
     const toggleMenu = () => {
-        body.classList.toggle('menu-is-open');
-        mobileMenu.classList.toggle('menu-open');
-
-        if (mobileMenu.classList.contains('menu-open')) {
-            gsap.set(mobileMenu, {
-                height: window.innerHeight + 'px'
-            });
+        if (!mobileMenu.classList.contains('menu-open')) {
+            animateIn(mobileMenu);
         } else {
-            gsap.set(mobileMenu, {
-                clearProps: 'height'
-            });
+            animateOut(mobileMenu);
         }
+    };
+
+    const animateIn = (menu) => {
+        body.classList.add('menu-is-open');
+        mobileMenu.classList.add('menu-open');
+
+        gsap.set(mobileMenu, {
+            height: window.innerHeight + 'px',
+            yPercent: -100,
+        });
+
+        gsap.to(menu, {
+            duration: 0.6,
+            yPercent: 0,
+            ease: 'expo.out',
+        });
+    };
+
+    const animateOut = (menu) => {
+        body.classList.remove('menu-is-open');
+
+        gsap.to(menu, {
+            duration: 0.6,
+            yPercent: -100,
+            ease: 'expo.out',
+            onComplete: () => {
+                gsap.set(mobileMenu, {
+                    clearProps: 'height'
+                });
+
+                mobileMenu.classList.remove('menu-open');
+            }
+        });
     };
 
     const handleResize = () => {
@@ -615,3 +694,127 @@ const observer = new IntersectionObserver((entries, observer) => {
 document.querySelectorAll('.js-draw-path path').forEach(path => {
     observer.observe(path);
 });
+
+// Dynamically Generated Video Modal
+const videoModal = () => {
+    const trigger = document.querySelectorAll('.js-video-modal');
+    const body = document.body;
+
+    let tl,
+        modal,
+        modalContent;
+
+    function playVimeo(player) {
+        player.play().then(function () {
+            console.log('Video is playing');
+        }).catch(function (error) {
+            console.error('Error playing the video:', error.name);
+        });
+    }
+
+    const setModalContent = (element) => {
+        element.video = element.querySelector('.js-video > *');
+
+        // create master modal div
+        modal = document.createElement('div');
+        modal.classList.add('f-modal');
+
+        // create modal divs
+        const modalClose = document.createElement('div');
+        const modalContent = document.createElement('div');
+        const modalLayout = document.createElement('div');
+
+        // add classes to modal divs
+        modalClose.classList.add('f-modal-close');
+        modalContent.classList.add('f-modal-content');
+        modalLayout.classList.add('f-modal-layout');
+
+        // assemble modal divs
+        modal.append(modalClose);
+        modal.append(modalContent);
+
+        // create member layout divs
+        const modalLayoutVideo = document.createElement('div');
+
+        // add classes to member layout divs
+        modalLayoutVideo.classList.add('f-modal-video');
+
+        // set content from the target element
+        modalLayoutVideo.innerHTML = `${element.video.outerHTML}`;
+
+        // assemble member layout
+        modalContent.append(modalLayoutVideo);
+
+        document.body.append(modal); // append modal to body
+
+        // animate opening modal
+        openModal(element);
+    };
+
+    const openModal = (element) => {
+        tl = gsap.timeline({reversed: true, pause: true});
+        modalContent = modal.querySelector('.f-modal-content');
+
+        modal.classList.add('open');
+
+        tl.set(modalContent, {
+            scale: 0.95,
+            opacity: 0
+        });
+
+        tl.to(modal, {
+            duration: 0.2,
+            opacity: 1,
+            onStart: () => {
+                body.classList.add('overflow-hidden');
+            },
+            onReverseComplete: () => {
+                body.classList.remove('overflow-hidden');
+                modal.classList.remove('open');
+                modal.remove();
+            }
+        }, '<+0.1').to(modalContent, {
+            duration: 0.2,
+            opacity: 1,
+            scale: 1,
+            onComplete: () => {
+                const HTML5Video = modalContent.querySelector('.f-modal-video video');
+
+                if (HTML5Video) {
+                    HTML5Video.play();
+                } else {
+                    const iframe = modalContent.querySelector('.f-modal-video iframe');
+                    const player = new Vimeo.Player(iframe);
+
+                    playVimeo(player);
+                }
+            }
+        });
+
+        tl.play();
+    };
+
+    // bind on click
+    trigger.forEach(element => {
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const target = e.currentTarget;
+
+            if (target.classList.contains('customer-testimonial') && target.parentNode.classList.contains('active')) {
+                setModalContent(target);
+            } else if (!target.classList.contains('customer-testimonial')) {
+                setModalContent(target);
+            }
+
+            // openModal(element);
+        });
+    });
+
+    // close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (modal && modal.contains(e.target) && !modalContent.contains(e.target)) {
+            tl.reverse();
+        }
+    });
+};

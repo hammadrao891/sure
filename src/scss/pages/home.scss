@@ -285,6 +285,7 @@
     backdrop-filter: blur(50px);
     padding: 16px;
     margin: -25% -50% 0;
+    transition: scale .2s ease;
     @include smallScreens {
       margin: -25% -35% 0;
     }
@@ -299,6 +300,12 @@
     }
     @include largeScreens {
       left: 75%;
+    }
+  }
+
+  .caption:hover {
+    @include mediumScreens {
+      scale: 1.025;
     }
   }
 

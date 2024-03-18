@@ -12,6 +12,7 @@ import {loadLottie} from '../utils/loadLottie';
 document.addEventListener('DOMContentLoaded', () => {
     handleLottieAnimations().then(r => {});
     ourLeadership();
+    tooltip();
 });
 
 // Load Lottie animation for a single element
@@ -33,7 +34,7 @@ const handleLottieAnimations = async () => {
     }
 };
 
-// Technology graphic
+// Graphic
 const ourLeadership = () => {
     const graphicTrigger = document.querySelector('.our-leadership-graphic');
     const hexagon = document.querySelectorAll('.our-leadership-graphic .hexagon');
@@ -79,5 +80,68 @@ const ourLeadership = () => {
         animation: tl,
         // markers: true, // Display markers for debugging (you can remove this in production)
         toggleActions: 'play none none none', // Define toggle actions for the trigger
+    });
+};
+
+// Custom tooltip
+const tooltip = () => {
+    // Create the tooltip element and append it to body
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    document.body.appendChild(tooltip);
+
+    gsap.set(tooltip, {
+        opacity: 0
+    });
+
+    // Function to update tooltip position and content
+    const updateTooltip = (e, content) => {
+        tooltip.innerHTML = content;
+
+        gsap.to(tooltip, {
+            duration: 0.2,
+            opacity: 1
+        });
+
+        // Ensure the tooltip does not exceed the screen width
+        let tooltipWidth = tooltip.offsetWidth;
+        let tooltipHeight = tooltip.offsetHeight;
+        let posX = e.pageX + 20; // Offset cursor position for X
+        let posY = e.pageY - window.scrollY + 20; // Offset cursor position for Y
+
+        // Adjust if tooltip exceeds the window width
+        if (posX + tooltipWidth > window.innerWidth - 30) {
+            posX = window.innerWidth - tooltipWidth - 30;
+        }
+        // Adjust if tooltip exceeds the window height
+        if (posY + tooltipHeight > window.innerHeight - 20) {
+            posY = window.innerHeight - tooltipHeight - 20;
+        }
+
+        tooltip.style.left = posX + 'px';
+        tooltip.style.top = posY + 'px';
+    }
+
+    // Function to hide tooltip
+    const hideTooltip = () => {
+        gsap.to(tooltip, {
+            duration: 0.2,
+            opacity: 0
+        });
+    }
+
+    // Attach event listeners to elements with the tooltip-target class
+    const targets = document.querySelectorAll('.js-tooltip');
+    targets.forEach((target) => {
+        target.addEventListener('mouseover', (e) => {
+            const content = e.currentTarget.querySelector('.js-tooltip-content').innerHTML;
+            updateTooltip(e, content);
+        });
+
+        target.addEventListener('mousemove', (e) => {
+            updateTooltip(e, e.currentTarget.querySelector('.js-tooltip-content').innerHTML);
+        });
+
+        target.addEventListener('mouseout', hideTooltip);
     });
 };

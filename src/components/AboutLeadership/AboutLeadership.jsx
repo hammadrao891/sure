@@ -1,3 +1,4 @@
+import '../../scss/pages/leadership.scss';
 function AboutLeadership()
 {
     return(

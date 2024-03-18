@@ -1,5 +1,5 @@
 
-
+import '../../scss/pages/home.scss';
 function Companies ()
 {
     return(

@@ -121,7 +121,7 @@ const heroCarousel = () => {
                     gsap.to(activeCaption, {
                         duration: .2,
                         opacity: 1,
-                        scale: 1
+                        scale: 1,
                     });
 
                     let realIndex = swiper.realIndex;
@@ -136,7 +136,7 @@ const heroCarousel = () => {
                             gsap.to(slide.querySelector('.caption'), {
                                 duration: .2,
                                 opacity: 0,
-                                scale: 0.75
+                                scale: 0.75,
                             });
                         }
                     });
@@ -152,7 +152,7 @@ const heroCarousel = () => {
                     gsap.to(activeCaption, {
                         duration: .2,
                         opacity: 1,
-                        scale: 1
+                        scale: 1,
                     });
                 }
             }

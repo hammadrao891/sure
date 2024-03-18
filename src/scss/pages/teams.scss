@@ -129,6 +129,7 @@
 .teams-layout {
   position: relative;
   display: grid;
+  align-items: center;
   grid-template: auto / repeat(1, minmax(0, 1fr));
   gap: 40px;
   @include mediumScreens {
@@ -144,6 +145,71 @@
 
   .media {
     position: relative;
+  }
+
+  .media .lottie-tab-container {
+    position: relative;
+    pointer-events: none;
+    margin: 0 auto;
+    width: 100%;
+    min-width: 280px;
+    min-height: 280px;
+    max-width: 560px;
+    max-height: 560px;
+  }
+
+  .media .lottie-tab-container:before {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  .media .lottie-tab-container > div {
+    position: absolute;
+    inset: -50%;
+  }
+
+  .media .lottie-tab-container > .highlights {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    max-width: 100%;
+    z-index: -1;
+  }
+
+  .media .lottie-tab-container .lottie-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 460px;
+    height: 460px;
+    max-width: 100%;
+  }
+
+  .media .lottie-tab-container .offset-5 {
+    @include mediumScreens {
+      width: 510px;
+      height: 510px;
+      max-width: calc(100% + 50px);
+    }
+  }
+
+  .media .lottie-tab-container .offset-10 {
+    @include mediumScreens {
+      width: 560px;
+      height: 560px;
+      max-width: calc(100% + 100px);
+    }
+  }
+
+  .media .lottie-tab-container .offset-15 {
+    @include mediumScreens {
+      width: 610px;
+      height: 610px;
+      max-width: calc(100% + 150px);
+    }
   }
 
   .decor {

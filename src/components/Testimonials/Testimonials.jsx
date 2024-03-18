@@ -1,5 +1,239 @@
-function Testimonials({active,handleItemClick})
+import { useEffect, useState } from "react";
+import {gsap} from 'gsap';
+function Testimonials()
 {
+  const [active,setActive] = useState({one:true,two:false,three:false,four:false,five:false})
+  useEffect(()=>{
+  const customerTestimonials = () => {
+    // Function to update padding based on the active element
+    function updatePadding() {
+        const children = document.querySelectorAll('.js-customer-testimonials-item');
+        const activeElement = document.querySelector('.js-customer-testimonials-item.active');
+
+        if (!activeElement) return;
+
+        if (window.innerWidth > 1023) {
+
+            let padding = 0;
+
+            children.forEach((child) => {
+                child.classList.remove('prev');
+                child.classList.remove('next');
+            });
+
+            let currentElement = activeElement.previousElementSibling;
+            if (currentElement) {
+                currentElement.classList.add('prev');
+            }
+            while (currentElement) {
+                padding += 48;
+                gsap.killTweensOf(currentElement);
+                gsap.to(currentElement, {
+                    duration: 0.6,
+                    paddingTop: padding + 'px',
+                    paddingBottom: padding + 'px',
+                });
+                currentElement = currentElement.previousElementSibling;
+            }
+
+            gsap.set(activeElement, {paddingTop: '', paddingBottom: ''});
+
+            padding = 0;
+            currentElement = activeElement.nextElementSibling;
+            if (currentElement) {
+                currentElement.classList.add('next');
+            }
+            while (currentElement) {
+                padding += 48;
+                gsap.killTweensOf(currentElement);
+                gsap.to(currentElement, {
+                    duration: 0.6,
+                    paddingTop: padding + 'px',
+                    paddingBottom: padding + 'px',
+                });
+                currentElement = currentElement.nextElementSibling;
+            }
+        } else {
+            children.forEach((child) => {
+                gsap.set(child, {paddingTop: '', paddingBottom: ''});
+            });
+        }
+    }
+}
+
+const swiperCustomerTestimonials = () => {
+    const customerTestimonials = document.querySelector('.js-customer-testimonials');
+
+    let swiper;
+
+    const createBaseMarkup = () => {
+        const swiperDiv = document.createElement('div');
+        const swiperWrapperDiv = document.createElement('div');
+        const swiperNavigationDiv = document.createElement('div');
+        const swiperNavigationPrevDiv = document.createElement('div');
+        const swiperNavigationNextDiv = document.createElement('div');
+
+        swiperDiv.classList.add('swiper-testimonials');
+        swiperWrapperDiv.classList.add('swiper-wrapper');
+        swiperNavigationDiv.classList.add('swiper-navigation');
+        swiperNavigationPrevDiv.classList.add('swiper-btn', 'swiper-btn-prev');
+        swiperNavigationNextDiv.classList.add('swiper-btn', 'swiper-btn-next');
+
+        swiperDiv.append(swiperWrapperDiv);
+        swiperNavigationDiv.append(swiperNavigationPrevDiv, swiperNavigationNextDiv);
+
+        Array.from(customerTestimonials.children).forEach((testimonial) => {
+            const swiperSlideDiv = document.createElement('div');
+
+            swiperSlideDiv.classList.add('swiper-slide');
+
+            swiperSlideDiv.append(testimonial.children[0].cloneNode(true));
+
+            swiperSlideDiv.querySelector('.hidden-info').remove();
+
+            swiperWrapperDiv.append(swiperSlideDiv);
+        });
+
+        customerTestimonials.parentNode.insertBefore(swiperDiv, customerTestimonials.nextSibling);
+        swiperWrapperDiv.parentNode.insertBefore(swiperNavigationDiv, swiperWrapperDiv.nextSibling);
+    };
+}        
+customerTestimonials();
+swiperCustomerTestimonials();
+
+}, []);
+const handleItemClick = (event,card) => {
+if (card === "one")
+{
+setActive({one:true,two:false,three:false,four:false,five:false})
+}
+else if (card === "two")
+{
+setActive({one:false,two:true,three:false,four:false,five:false})
+}
+else if (card === "three")
+{
+setActive({one:false,two:false,three:true,four:false,five:false})
+}
+else if (card === "four")
+{
+setActive({one:false,two:false,three:false,four:true,five:false})
+}
+else if (card === "five")
+{
+setActive({one:false,two:false,three:false,four:false,five:true})
+}
+const element = event.currentTarget;
+
+const classList = element.classList;
+classList.remove('active');
+element.classList.add('active');
+updatePadding();
+updateClickListeners();
+};
+// Initial setup
+updatePadding();
+updateClickListeners();
+
+// Update padding on window resize
+window.addEventListener('resize', updatePadding);
+// };
+function updatePadding() {
+const children = document.querySelectorAll('.js-customer-testimonials-item');
+const activeElement = document.querySelector('.js-customer-testimonials-item.active');
+
+if (!activeElement) return;
+
+if (window.innerWidth > 1023) {
+
+let padding = 0;
+
+children.forEach((child) => {
+  child.classList.remove('prev');
+  child.classList.remove('next');
+});
+
+let currentElement = activeElement.previousElementSibling;
+if (currentElement) {
+  currentElement.classList.add('prev');
+}
+while (currentElement) {
+  padding += 48;
+  gsap.killTweensOf(currentElement);
+  gsap.to(currentElement, {
+      duration: 0.6,
+      paddingTop: padding + 'px',
+      paddingBottom: padding + 'px',
+  });
+  currentElement = currentElement.previousElementSibling;
+}
+
+gsap.set(activeElement, {paddingTop: '', paddingBottom: ''});
+
+padding = 0;
+currentElement = activeElement.nextElementSibling;
+if (currentElement) {
+  currentElement.classList.add('next');
+}
+while (currentElement) {
+  padding += 48;
+  gsap.killTweensOf(currentElement);
+  gsap.to(currentElement, {
+      duration: 0.6,
+      paddingTop: padding + 'px',
+      paddingBottom: padding + 'px',
+  });
+  currentElement = currentElement.nextElementSibling;
+}
+} else {
+children.forEach((child) => {
+  gsap.set(child, {paddingTop: '', paddingBottom: ''});
+});
+}
+}
+// Function to add click listeners to non-active items
+function updateClickListeners() {
+const activeEls = document.querySelectorAll('.js-customer-testimonials-item');
+const notActiveEls = document.querySelectorAll('.js-customer-testimonials-item:not(.active)');
+
+// First, remove click listeners from all items
+activeEls.forEach(item => {
+item.removeEventListener('click', handleItemClick);
+});
+
+// Then, add click listeners only to non-active items
+notActiveEls.forEach(item => {
+if (window.innerWidth > 1023) {
+    item.addEventListener('click', handleItemClick);
+} else {
+    item.removeEventListener('click', handleItemClick);
+}
+});
+}
+useEffect(()=>
+{
+  function updateClickListeners() {
+    const activeEls = document.querySelectorAll('.js-customer-testimonials-item');
+    const notActiveEls = document.querySelectorAll('.js-customer-testimonials-item:not(.active)');
+    
+    // First, remove click listeners from all items
+    activeEls.forEach(item => {
+    item.removeEventListener('click', handleItemClick);
+    });
+    
+    // Then, add click listeners only to non-active items
+    notActiveEls.forEach(item => {
+    if (window.innerWidth > 1023) {
+        item.addEventListener('click', handleItemClick);
+    } else {
+        item.removeEventListener('click', handleItemClick);
+    }
+    });
+    }
+    updateClickListeners()
+    updateClickListeners()
+
+},[handleItemClick])
     return(
         <>
             <section class="shared-section section-testimonials">

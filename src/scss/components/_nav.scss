@@ -1,11 +1,12 @@
 // Navigation
 
 header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 2019;
+  transition: background-color .3s ease;
 }
 
 .navbar,
@@ -28,6 +29,10 @@ header {
       justify-content: space-between;
     }
   }
+}
+
+.navbar-scrolled {
+  background-color: clr(white);
 }
 
 .navbar-header {
@@ -67,12 +72,17 @@ header {
     @include customScreens(1024px) {
       display: inline-flex;
       font-size: 16px;
+      padding: 0;
       border-bottom: 0;
+      background-color: transparent;
+      border-bottom: 2px solid transparent;
+      transition: border-color .2s ease;
     }
   }
 
   .nav-item > .nav-link:hover {
     background-color: transparent;
+    border-bottom: 2px solid rgba(clr(primary), 1);
   }
 
   .nav-item > .nav-link:focus {
@@ -234,7 +244,7 @@ header {
 }
 
 .menu-is-open {
-  overflow: hidden;
+  //overflow: hidden;
 
   .navbar {
     color: clr(primary);

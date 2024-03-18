@@ -1,3 +1,5 @@
+import '../../scss/pages/leadership.scss';
+
 function LeadershipHero()
 {
     return(

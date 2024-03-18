@@ -3,6 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Carousel from './components/Carousel/Carousel';
+import Companies from './components/Companies/Companies';
+import Navigation from './components/Navigation/Navigation';
+import RecognitionElements from './components/RecognitionElements/RecognitionElements';
+import Testimonials from './components/Testimonials/Testimonials';
+import Footer from './components/Footer/Footer';
+import LeadershipHero from './components/LeadershipHero/LeadershipHero';
+import LeadershipMain from './components/LeadershipMain/LeadershipMain';
+import LeadershipMembers from './components/LeadershipMembers/LeadershipMembers';
+import AboutHero from './components/AboutHero/AboutHero';
+import AboutMain from './components/AboutMain/AboutMain';
+import AboutLeadership from './components/AboutLeadership/AboutLeadership';
+import AboutValues from './components/AboutValues/AboutValues';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

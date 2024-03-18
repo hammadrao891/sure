@@ -259,6 +259,10 @@ label {
   border: 1px solid rgba(clr(primary), 0.1);
   background: rgba(clr(primary), 0.03);
   border-radius: 8px;
+
+  &:focus {
+    border-color: clr(blue);
+  }
 }
 
 textarea.form-control {
@@ -300,6 +304,127 @@ textarea.form-control {
 
 .js-draw-path {
   opacity: 0;
+}
+
+.f-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  grid-template: auto / 1fr;
+  justify-items: center;
+  align-items: center;
+  background: rgba(clr(primary), 0.8);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 2022;
+  opacity: 0;
+
+  .f-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    pointer-events: none;
+    @include mediumScreens {
+      padding: 30px;
+    }
+  }
+
+  .f-modal-content > * {
+    pointer-events: auto;
+  }
+
+  .f-modal-video {
+    max-width: 1360px;
+    width: 100%;
+    padding-right: var(--globalGutter);
+    padding-left: var(--globalGutter);
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 12px;
+  }
+
+  .f-modal-video video {
+    display: block;
+    width: 100%;
+    border-radius: inherit;
+  }
+
+  .f-modal-video img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .f-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid clr(white);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 3;
+    @include mediumScreens {
+      top: 40px;
+      right: 40px;
+    }
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.5px;
+      height: 16px;
+      translate: -50% -50%;
+      border-radius: 6px;
+      background-color: clr(white);
+      @include mediumScreens {
+        background-color: clr(white);
+      }
+    }
+
+    &:before {
+      transform: rotate(-45deg);
+    }
+
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.f-modal.open {
+  display: grid;
+}
+
+.js-video-modal {
+  .js-video {
+    display: none;
+  }
+}
+
+.vimeo {
+  position: relative;
+  padding-bottom: 56.25%;
+  border-radius: 12px;
+
+  iframe {
+    border-radius: inherit;
+  }
 }
 
 /*** Main End ***/

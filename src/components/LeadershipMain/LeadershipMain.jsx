@@ -7,7 +7,7 @@ function LeadershipMain()
         <>
     <main>
       <LeadershipHero/>
-        <LeadershipMembers/>
+      <LeadershipMembers/>
       </main>
         </>
     )
