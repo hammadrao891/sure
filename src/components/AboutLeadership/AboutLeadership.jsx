@@ -1,6 +1,93 @@
 import '../../scss/pages/leadership.scss';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { loadLottie } from '../../utils/loadLottie';
+import "../../css/about.ee492bde6caa65c5d775.css"
+import { useEffect } from 'react';
 function AboutLeadership()
 {
+  useEffect(() => {
+  const handleLottieAnimations = async () => {
+      const animationContainers = document.querySelectorAll('.lottie-animation-container');
+
+      for (const container of animationContainers) {
+          const jsonFile = container.getAttribute('data-animation-json');
+          const animation = await loadLottie(jsonFile, container);
+
+          if (animation) {
+              ScrollTrigger.create({
+                  trigger: container,
+                  start: 'top center',
+                  end: 'bottom center',
+                  onEnter: () => animation.play(),
+              });
+          }
+      }
+  };
+
+  const ourLeadership = () => {
+      const tl = gsap.timeline({ paused: true });
+      const hexagon = document.querySelectorAll('.our-leadership-graphic .hexagon');
+      const persons = document.querySelectorAll('.our-leadership-graphic .person');
+      const tooltip = document.querySelector('.our-leadership-graphic .tooltip');
+
+      gsap.set(gsap.utils.toArray(persons), {
+          opacity: 0,
+          scale: 0.75
+      });
+
+      gsap.set(tooltip, {
+          opacity: 0
+      });
+
+      gsap.set(hexagon, {
+          opacity: 0,
+          scale: 0
+      });
+
+      const duration = 0.5;
+      const ease = 'expo.out';
+
+      tl.to(hexagon, { opacity: 1, scale: 1, duration: duration, ease: ease });
+
+      tl.to(persons[0], { opacity: 1, scale: 1, duration: duration, ease: ease });
+
+      tl.to(tooltip, { opacity: 1, duration: duration, ease: ease });
+
+      for (let index = 1; index < 6; index++) {
+          tl.to(persons[index], { opacity: 1, scale: 1, duration: duration, ease: ease }, `>-25%`);
+      }
+
+      ScrollTrigger.create({
+          trigger: '.our-leadership-graphic',
+          id: 'leadershipGraphic',
+          start: 'top center',
+          end: 'top center',
+          animation: tl,
+          toggleActions: 'play none none none',
+      });
+  };
+
+  const tooltip = () => {
+      const updateTooltip = (e, content) => {
+          // Update tooltip position and content
+      };
+
+      const hideTooltip = () => {
+          // Hide tooltip
+      };
+
+      const targets = document.querySelectorAll('.js-tooltip');
+      targets.forEach((target) => {
+          // Attach event listeners
+      });
+  };
+
+  handleLottieAnimations();
+  ourLeadership();
+  tooltip();
+}, []);
+
     return(
         <>
             <section class="shared-section section-leadership pt-0 pb-0">
