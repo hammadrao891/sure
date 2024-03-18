@@ -20,18 +20,7 @@ import AboutValues from './components/AboutValues/AboutValues';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    {/* <Carousel/> */}
-    {/* <Companies/> */}
-    {/* <Navigation/> */}
-    {/* <RecognitionElements/> */}
-    {/* <Testimonials/> */}
-    {/* <Footer/> */}
-    {/* <LeadershipHero/> */}
-    {/* <LeadershipMembers/> */}
-    {/* <AboutHero/> */}
-    <AboutLeadership/>
-    {/* <AboutValues/> */}
+    <App />
   </React.StrictMode>
 );
 
