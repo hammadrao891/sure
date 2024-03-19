@@ -6,7 +6,7 @@ function Navigation()
 {
   const togglers = document.querySelectorAll('.js-collapse-menu');
   
-  useEffect(()=>{
+  // useEffect(()=>{
     const customDropdown = () => {
       const dropdowns = document.querySelectorAll('.js-dropdown');
   
@@ -184,7 +184,7 @@ customDropdown()
       elements.forEach((element) => onClick(element));
   };
 languageSelector()  
-  })
+  // })
   useEffect(()=>{
     
     const mobileNavigation = () => {
