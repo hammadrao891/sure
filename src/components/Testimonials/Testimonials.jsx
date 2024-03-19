@@ -5,6 +5,7 @@ import "../../css/global.c12ee4b9163e7c1766c1.css"
 import "../../scss/pages/home.scss"
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
+import TestimonialHeading from "../TestimonialHeading/TestimonialHeading";
 function Testimonials()
 {
   const [active,setActive] = useState({one:true,two:false,three:false,four:false,five:false})
@@ -296,6 +297,7 @@ useEffect(()=>
                   alt=""
                 />
               </div>
+              <TestimonialHeading/>
               <div class="customer-testimonials js-customer-testimonials" onClick={handleItemClick}>
                 
                 <div class={`customer-testimonials-item js-customer-testimonials-item ${active.one && 'active'}`} onClick={e=>handleItemClick(e,'one')}>
