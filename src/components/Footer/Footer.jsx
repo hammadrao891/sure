@@ -1,5 +1,187 @@
+import gsap from "gsap";
+import { useEffect } from "react"
+
 function Footer()
 {
+  useEffect(()=>{
+    const customDropdown = () => {
+      const dropdowns = document.querySelectorAll('.js-dropdown');
+  
+      const onClick = (dropdown) => {
+          const toggler = dropdown.firstElementChild;
+  
+          toggler.addEventListener('click', (e) => toggleDropdown(e));
+      };
+  
+      const toggleDropdown = (e) => {
+          const toggler = e.currentTarget;
+          const dropdown = toggler.closest('.js-dropdown');
+          const dropdownMenu = toggler.nextElementSibling;
+  
+          // open clicked dropdown
+          if (dropdown.classList.contains('open')) {
+              dropdown.classList.remove('open');
+              toggler.classList.remove('active');
+  
+              gsap.to(dropdownMenu, {
+                  duration: 0.2,
+                  opacity: 0,
+                  y: -8,
+                  ease: 'power2.out',
+                  onComplete: () => {
+                      gsap.set(dropdownMenu, {
+                          clearProps: 'all'
+                      });
+                  }
+              });
+          } else {
+              dropdown.classList.add('open');
+              toggler.classList.add('active');
+  
+              gsap.set(dropdownMenu, {
+                  display: 'block',
+                  opacity: 0,
+                  y: -8
+              });
+  
+              gsap.to(dropdownMenu, {
+                  duration: 0.2,
+                  opacity: 1,
+                  y: 0,
+                  ease: 'power2.out'
+              });
+          }
+  
+          // close previously opened dropdowns
+          dropdowns.forEach((target) => {
+              if (target !== e.currentTarget.parentNode) {
+                  if (target.classList.contains('open')) {
+                      target.classList.remove('open');
+                      target.firstElementChild.classList.remove('active');
+  
+                      gsap.to(target.querySelector('.dropdown-menu'), {
+                          duration: 0.2,
+                          opacity: 0,
+                          y: -8,
+                          ease: 'power2.out',
+                          onComplete: () => {
+                              gsap.set(target.querySelector('.dropdown-menu'), {
+                                  clearProps: 'all'
+                              });
+                          }
+                      });
+                  }
+              }
+          });
+      };
+  
+      dropdowns.forEach((dropdown) => onClick(dropdown));
+      document.addEventListener('click', (e) => {
+          dropdowns.forEach((dropdown) => {
+              if (dropdown.classList.contains('open')) {
+                  const isClickInside = dropdown.contains(e.target);
+  
+                  if (!isClickInside) {
+                      dropdown.classList.remove('open');
+                      dropdown.firstElementChild.classList.remove('active');
+  
+                      gsap.to(dropdown.querySelector('.dropdown-menu'), {
+                          duration: 0.2,
+                          opacity: 0,
+                          y: -8,
+                          ease: 'power2.out',
+                          onComplete: () => {
+                              gsap.set(dropdown.querySelector('.dropdown-menu'), {
+                                  clearProps: 'all'
+                              });
+                          }
+                      });
+                  }
+              }
+          });
+      });
+  };
+  
+customDropdown()  
+    const languageSelector = () => {
+      const elements = document.querySelectorAll('.js-language-selector');
+  
+      const onClick = (dropdown) => {
+          const targets = dropdown.querySelector('.dropdown-list').children;
+  
+          Array.from(targets).forEach((target) => {
+              target.addEventListener('click', (e) => updateToggler(e, dropdown));
+          });
+      };
+  
+      const checkActive = (e) => {
+          const targets = e.querySelector('.dropdown-list').children;
+  
+          Array.from(targets).forEach((target) => {
+              if (target.classList.contains('active')) {
+                  const toggler = e.firstElementChild;
+  
+                  if (document.querySelector('.navbar-header').contains(target)) {
+                      const regExp = /\(([^)]+)\)/;
+                      const matches = regExp.exec(target.innerHTML);
+  
+                      toggler.innerHTML = matches[1];
+                  } else {
+                      toggler.innerHTML = target.innerHTML;
+                  }
+              }
+          });
+      };
+  
+      const updateToggler = (e, dropdown) => {
+          const toggler = dropdown.firstElementChild;
+          const target = e.currentTarget;
+          const dropdownMenu = toggler.nextElementSibling;
+  
+          target.classList.add('active');
+  
+          if (document.querySelector('.navbar-header').contains(target)) {
+              const regExp = /\(([^)]+)\)/;
+              const matches = regExp.exec(target.innerHTML);
+  
+              toggler.innerHTML = matches[1];
+          } else {
+              toggler.innerHTML = target.innerHTML;
+          }
+  
+          // remove active class from siblings
+          Array.from(target.parentNode.children).forEach((toggler) => {
+              if (toggler !== e.currentTarget) {
+                  if (toggler.classList.contains('active')) {
+                      toggler.classList.remove('active');
+                  }
+              }
+          });
+  
+          // close dropdown
+          if (dropdown.classList.contains('open')) {
+              dropdown.classList.remove('open');
+              toggler.classList.remove('active');
+  
+              gsap.to(dropdownMenu, {
+                  duration: 0.2,
+                  opacity: 0,
+                  y: -8,
+                  ease: 'power2.out',
+                  onComplete: () => {
+                      gsap.set(dropdownMenu, {
+                          clearProps: 'all'
+                      });
+                  }
+              });
+          }
+      };
+  
+      elements.forEach((element) => checkActive(element));
+      elements.forEach((element) => onClick(element));
+  };
+languageSelector()  
+  })
     return(
         <>
             <footer>

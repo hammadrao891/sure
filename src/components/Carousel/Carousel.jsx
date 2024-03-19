@@ -9,8 +9,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Swiper from "swiper";
 // import '../../scss/app.scss';
-// import '../../scss/main.scss';
+
 import "../../css/global.c12ee4b9163e7c1766c1.css"
+import HomepageHeading from '../HomepageHeading/HomepageHeading.jsx';
+import CarouselDescription from '../CarouselDescription/CarouselDescription.jsx';
+import LearnMoreButton from '../LearnMoreButton/LearnMoreButton.jsx';
+import SelfKnowledgeDescription from '../SelfKnowledegeDescription/SelfKnowledgeDescription.jsx';
+import TrustedRelationshipsDescription from '../TrustedRelationshipsDescription/TrustedRelationshipsDescription.jsx';
+import CoachingDescription from '../CoachingDescription/CoachingDescription.jsx';
+import ScienceDescription from '../ScienceDescription/ScienceDescription.jsx';
 
 function Carousel ()
 {
@@ -188,11 +195,7 @@ function Carousel ()
                 
                 <div class="hero-content">
                   
-                  <h1 class="heading js-reveal-on-scroll js-split-to-lines">
-                    Empowering Leaders
-                    <br /> to Achieve Extraordinary
-                    <br /> Team Results
-                  </h1>
+                 <HomepageHeading/>
                 </div>
                 <div class="hero-carousel-module">
                   
@@ -260,15 +263,7 @@ function Carousel ()
                             </div>
                             <div class="text">
                               
-                              <h6 class="title">
-                                Self-Knowledge, the Key to Extraordinary
-                                Leadership
-                              </h6>
-                              <p class="paragraph">
-                                Understand how you – and each team member – are
-                                uniquely wired to perform under pressure, make
-                                decisions, and manage conflict.
-                              </p>
+                            <SelfKnowledgeDescription/>
                             </div>
                             <a href="#" class="action">
                               
@@ -299,15 +294,7 @@ function Carousel ()
                             </div>
                             <div class="text">
                               
-                              <h6 class="title">
-                                Trusted Relationships Drive High-Performance
-                              </h6>
-                              <p class="paragraph">
-                                Get science-driven advice based on how each
-                                person is uniquely wired, so you can build and
-                                sustain trusted, productive relationships that
-                                drive performance.
-                              </p>
+                             <TrustedRelationshipsDescription/>
                             </div>
                             <a href="#" class="action">
                               
@@ -338,15 +325,7 @@ function Carousel ()
                             </div>
                             <div class="text">
                               
-                              <h6 class="title">
-                                Coaching Empowers Extraordinary Leaders
-                              </h6>
-                              <p class="paragraph">
-                                Empower your leadership with 'My Coach.' Get
-                                actionable advice for team coaching in any
-                                situation, tailored to individual strengths and
-                                dynamics.
-                              </p>
+                              <CoachingDescription/>
                             </div>
                             <a href="#" class="action">
                               
@@ -376,16 +355,7 @@ function Carousel ()
                               <img src="img/home/AI.svg" alt="" />
                             </div>
                             <div class="text">
-                              
-                              <h6 class="title">
-                                The Science Behind Successful Meetings
-                              </h6>
-                              <p class="paragraph">
-                                Leverage science-driven guidance about “How to
-                                Approach” and “What to Avoid,” during 1-on-1
-                                meetings, based on how you and a team member are
-                                wired.
-                              </p>
+                              <ScienceDescription/>
                             </div>
                             <a href="#" class="action">
                               
@@ -400,16 +370,10 @@ function Carousel ()
                 </div>
                 <div class="hero-content d-none d-md-block">
                   
-                  <p class="paragraph js-reveal-on-scroll js-split-to-lines">
-                    Managing teams has never been more difficult. We empower
-                    leaders to align, develop, and optimize their teams for
-                    performance in the flow of work, when they need it most.
-                  </p>
+                 <CarouselDescription/>
                   <div class="buttons">
                     
-                    <a href="#" class="btn btn-lg btn-primary">
-                      Learn More
-                    </a>
+                   <LearnMoreButton/>
                   </div>
                 </div>
               </div>

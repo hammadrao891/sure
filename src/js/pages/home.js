@@ -249,7 +249,7 @@ const customerTestimonials = () => {
         updatePadding();
         updateClickListeners();
     }
-
+    
     // Initial setup
     updatePadding();
     updateClickListeners();

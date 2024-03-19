@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import {gsap} from 'gsap';
+import "../../css/index.5165d336f6d347ebc651.css"
+import "../../css/global.c12ee4b9163e7c1766c1.css"
+import "../../scss/pages/home.scss"
+import Swiper from "swiper";
+import { Navigation } from "swiper/modules";
 function Testimonials()
 {
   const [active,setActive] = useState({one:true,two:false,three:false,four:false,five:false})
@@ -62,42 +67,81 @@ function Testimonials()
 }
 
 const swiperCustomerTestimonials = () => {
-    const customerTestimonials = document.querySelector('.js-customer-testimonials');
+  const customerTestimonials = document.querySelector('.js-customer-testimonials');
 
-    let swiper;
+  let swiper;
 
-    const createBaseMarkup = () => {
-        const swiperDiv = document.createElement('div');
-        const swiperWrapperDiv = document.createElement('div');
-        const swiperNavigationDiv = document.createElement('div');
-        const swiperNavigationPrevDiv = document.createElement('div');
-        const swiperNavigationNextDiv = document.createElement('div');
+  const createBaseMarkup = () => {
+      const swiperDiv = document.createElement('div');
+      const swiperWrapperDiv = document.createElement('div');
+      const swiperNavigationDiv = document.createElement('div');
+      const swiperNavigationPrevDiv = document.createElement('div');
+      const swiperNavigationNextDiv = document.createElement('div');
 
-        swiperDiv.classList.add('swiper-testimonials');
-        swiperWrapperDiv.classList.add('swiper-wrapper');
-        swiperNavigationDiv.classList.add('swiper-navigation');
-        swiperNavigationPrevDiv.classList.add('swiper-btn', 'swiper-btn-prev');
-        swiperNavigationNextDiv.classList.add('swiper-btn', 'swiper-btn-next');
+      swiperDiv.classList.add('swiper-testimonials');
+      swiperWrapperDiv.classList.add('swiper-wrapper');
+      swiperNavigationDiv.classList.add('swiper-navigation');
+      swiperNavigationPrevDiv.classList.add('swiper-btn', 'swiper-btn-prev');
+      swiperNavigationNextDiv.classList.add('swiper-btn', 'swiper-btn-next');
 
-        swiperDiv.append(swiperWrapperDiv);
-        swiperNavigationDiv.append(swiperNavigationPrevDiv, swiperNavigationNextDiv);
+      swiperDiv.append(swiperWrapperDiv);
+      swiperNavigationDiv.append(swiperNavigationPrevDiv, swiperNavigationNextDiv);
 
-        Array.from(customerTestimonials.children).forEach((testimonial) => {
-            const swiperSlideDiv = document.createElement('div');
+      Array.from(customerTestimonials.children).forEach((testimonial) => {
+          const swiperSlideDiv = document.createElement('div');
 
-            swiperSlideDiv.classList.add('swiper-slide');
+          swiperSlideDiv.classList.add('swiper-slide');
 
-            swiperSlideDiv.append(testimonial.children[0].cloneNode(true));
+          swiperSlideDiv.append(testimonial.children[0].cloneNode(true));
 
-            swiperSlideDiv.querySelector('.hidden-info').remove();
+          swiperSlideDiv.querySelector('.hidden-info').remove();
 
-            swiperWrapperDiv.append(swiperSlideDiv);
-        });
+          swiperWrapperDiv.append(swiperSlideDiv);
+      });
 
-        customerTestimonials.parentNode.insertBefore(swiperDiv, customerTestimonials.nextSibling);
-        swiperWrapperDiv.parentNode.insertBefore(swiperNavigationDiv, swiperWrapperDiv.nextSibling);
-    };
-}        
+      customerTestimonials.parentNode.insertBefore(swiperDiv, customerTestimonials.nextSibling);
+      swiperWrapperDiv.parentNode.insertBefore(swiperNavigationDiv, swiperWrapperDiv.nextSibling);
+  };
+
+  const createSwiper = () => {
+      const swiperContainer = document.querySelector('.swiper-testimonials');
+
+      if (swiperContainer) {
+          swiper = new Swiper(`.${swiperContainer.className}`, {
+              modules: [Navigation],
+              slidesPerView: 1,
+              spaceBetween: 10,
+              navigation: {
+                  prevEl: swiperContainer.querySelector('.swiper-btn-prev'),
+                  nextEl: swiperContainer.querySelector('.swiper-btn-next'),
+              }
+          });
+      }
+  };
+
+  const init = () => {
+      if (window.innerWidth < 1024) {
+          if (!swiper) {
+              createBaseMarkup();
+              createSwiper();
+          }
+           else if (swiper.destroyed) {
+              createBaseMarkup();
+              createSwiper();
+          }
+      } else {
+          if (swiper) {
+              if (swiper.el !== undefined) {
+                  swiper.el.remove();
+                  swiper.destroy(true, true);
+              }
+          }
+      }
+  };
+
+  init();
+  window.addEventListener('resize', init);
+};
 customerTestimonials();
 swiperCustomerTestimonials();
 
@@ -234,6 +278,7 @@ useEffect(()=>
     updateClickListeners()
 
 },[handleItemClick])
+
     return(
         <>
             <section class="shared-section section-testimonials">
@@ -250,16 +295,6 @@ useEffect(()=>
                   src="img/home/ColorsTestimonials@mobile.svg"
                   alt=""
                 />
-              </div>
-              <div class="container">
-                
-                <div class="shared-heading text-center">
-                  
-                  <h2 class="heading heading-3">Customer Testimonials</h2>
-                  <p class="paragraph paragraph-xxl">
-                    Real stories from our valued customers and partners.
-                  </p>
-                </div>
               </div>
               <div class="customer-testimonials js-customer-testimonials" onClick={handleItemClick}>
                 

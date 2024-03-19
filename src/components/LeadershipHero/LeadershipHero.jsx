@@ -1,7 +1,16 @@
+import gsap from 'gsap';
 import '../../scss/pages/leadership.scss';
+import { useEffect } from 'react';
+import LeadershipHeading from '../LeadershipHeading/LeadershipHeading';
+import LeadershipSubHeading from '../LeadershipSubHeading/LeadershipSubHeading';
 
 function LeadershipHero()
 {
+  useEffect(() => {
+    const path = document.querySelector('#svgg');
+    gsap.set(path, { strokeDasharray: path.getTotalLength(), strokeDashoffset: path.getTotalLength() });
+    gsap.to(path, { duration: 2, strokeDashoffset: 0 });
+}, []);
     return(
         <>
               <section class="shared-hero">
@@ -50,21 +59,12 @@ function LeadershipHero()
           </div>
           <div class="container">
             <div class="hero-content">
-              <span class="pretitle js-reveal-on-scroll">Our Leadership</span>
-              <h1 class="heading js-reveal-on-scroll js-split-to-lines">
-                We bring together a diverse,
-                <span class="text-gradient">experienced leadership</span> team
-                with deep domain expertise
-              </h1>
-              <p
-                class="paragraph paragraph-xxl js-reveal-on-scroll js-split-to-lines"
-              >
-                All united by a shared commitment to unlocking human potential.
-              </p>
+              <LeadershipHeading/>
+             <LeadershipSubHeading/>
             </div>
           </div>
           <svg class="d-none d-md-block" viewBox="0 0 1440 293" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M-12.5 230.5C110.5 -154 471.5 273.5 767 220.5C1062.5 167.5 1156.31 121.674 1129.5 89.4999C1084.5 35.4999 970.841 391.079 1224 264.5C1477.16 137.921 1398 1 1538.5 1" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDasharray: '2093.39',
+              <path id="svgg" d="M-12.5 230.5C110.5 -154 471.5 273.5 767 220.5C1062.5 167.5 1156.31 121.674 1129.5 89.4999C1084.5 35.4999 970.841 391.079 1224 264.5C1477.16 137.921 1398 1 1538.5 1" stroke="#131316" stroke-width="2" stroke-linecap="round" style={{strokeDasharray: '2093.39',
         strokeDashoffset: '-0.00339316'}}></path>
             </svg>
         </section>
