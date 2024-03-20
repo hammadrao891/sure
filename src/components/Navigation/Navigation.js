@@ -1,11 +1,122 @@
 import gsap from "gsap";
 import { useEffect } from "react"
+import {Expo} from 'gsap';
+import {ScrollToPlugin} from 'gsap/ScrollToPlugin';
 
 
 function Navigation()
 {
   const togglers = document.querySelectorAll('.js-collapse-menu');
   
+const mobileCollapseMenu = () => {
+    const togglers = document.querySelectorAll('.js-collapse-menu');
+
+    const onClick = (e) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const dropdown = e.target.nextElementSibling;
+
+        // open clicked dropdown
+        if (parent.classList.contains('active')) {
+            parent.classList.remove('active');
+
+            gsap.to(dropdown, {
+                duration: 0.2,
+                height: 0,
+                ease: 'power2.out',
+                onComplete: () => {
+                    gsap.set(dropdown, {
+                        clearProps: 'all'
+                    });
+                }
+            });
+        } else {
+            parent.classList.add('active');
+
+            gsap.to(dropdown, {
+                duration: 0.2,
+                height: dropdown.scrollHeight,
+                ease: 'power2.out',
+            });
+        }
+
+        // close previously opened dropdowns
+        togglers.forEach((toggler) => {
+            if (toggler !== e.target) {
+                const parent = toggler.parentNode;
+                const dropdown = toggler.nextElementSibling;
+
+                if (dropdown && parent.classList.contains('active')) {
+                    parent.classList.remove('active');
+
+                    gsap.to(dropdown, {
+                        duration: 0.2,
+                        height: 0,
+                        ease: 'power2.out',
+                    });
+                }
+            }
+        });
+    };
+
+    const handleResize = () => {
+        togglers.forEach((toggler) => {
+            const parent = toggler.parentNode;
+            const dropdown = toggler.nextElementSibling;
+
+            if (dropdown && parent.classList.contains('active')) {
+
+                parent.classList.remove('active');
+                gsap.set(dropdown, {
+                    clearProps: 'all'
+                });
+            }
+        });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize, false);
+    togglers.forEach((toggler) => {
+        toggler.addEventListener('click', onClick);
+    });
+};
+
+// Scroll to anchor
+const scrollToAnchor = () => {
+    // ScrollTrigger
+    gsap.registerPlugin(ScrollToPlugin);
+    gsap.defaults({overwrite: 'auto'});
+
+    const triggers = document.querySelectorAll('.js-smooth-scroll-to');
+
+    let sectionPaddingY, offset;
+
+    const getPaddingTop = () => {
+        sectionPaddingY = getComputedStyle(document.body).getPropertyValue('--sectionPaddingY');
+        offset = parseInt(sectionPaddingY) / 2;
+    };
+
+    const jumpToSection = e => {
+        e.preventDefault();
+
+        const contentTarget = document.querySelector(e.currentTarget.getAttribute('href'));
+        const contentTargetY = contentTarget.getBoundingClientRect().top + window.scrollY;
+
+        getPaddingTop();
+
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: contentTargetY - offset,
+            ease: Expo.easeInOut
+        });
+    };
+
+    triggers.forEach(el => el.addEventListener('click', e => jumpToSection(e)));
+};
+mobileCollapseMenu()
+// mobileNavigation()
+scrollToAnchor()
   // useEffect(()=>{
     const customDropdown = () => {
       const dropdowns = document.querySelectorAll('.js-dropdown');
@@ -247,61 +358,80 @@ languageSelector()
       window.addEventListener('resize', handleResize, false);
       mobileToggler.addEventListener('click', toggleMenu, false);
   };
-
   const mobileCollapseMenu = () => {
-      const togglers = document.querySelectorAll('.js-collapse-menu');
-  
-      const onClick = (e) => {
-          e.preventDefault();
-  
-          const parent = e.target.parentNode;
-          const dropdown = e.target.nextElementSibling;
-  
-          // open clicked dropdown
-          if (parent.classList.contains('active')) {
-              parent.classList.remove('active');
-  
-              gsap.to(dropdown, {
-                  duration: 0.2,
-                  height: 0,
-                  ease: 'power2.out',
-                  onComplete: () => {
-                      gsap.set(dropdown, {
-                          clearProps: 'all'
-                      });
-                  }
-              });
-          } else {
-              parent.classList.add('active');
-  
-              gsap.to(dropdown, {
-                  duration: 0.2,
-                  height: dropdown.scrollHeight,
-                  ease: 'power2.out',
-              });
-          }
-  
-          // close previously opened dropdowns
-          togglers.forEach((toggler) => {
-              if (toggler !== e.target) {
-                  const parent = toggler.parentNode;
-                  const dropdown = toggler.nextElementSibling;
-  
-                  if (dropdown && parent.classList.contains('active')) {
-                      parent.classList.remove('active');
-  
-                      gsap.to(dropdown, {
-                          duration: 0.2,
-                          height: 0,
-                          ease: 'power2.out',
-                      });
-                  }
-              }
-          });
-      };
-  
-   
-    }
+    const togglers = document.querySelectorAll('.js-collapse-menu');
+
+    const onClick = (e) => {
+        e.preventDefault();
+
+        const parent = e.target.parentNode;
+        const dropdown = e.target.nextElementSibling;
+
+        // open clicked dropdown
+        if (parent.classList.contains('active')) {
+            parent.classList.remove('active');
+
+            gsap.to(dropdown, {
+                duration: 0.2,
+                height: 0,
+                ease: 'power2.out',
+                onComplete: () => {
+                    gsap.set(dropdown, {
+                        clearProps: 'all'
+                    });
+                }
+            });
+        } else {
+            parent.classList.add('active');
+
+            gsap.to(dropdown, {
+                duration: 0.2,
+                height: dropdown.scrollHeight,
+                ease: 'power2.out',
+            });
+        }
+
+        // close previously opened dropdowns
+        togglers.forEach((toggler) => {
+            if (toggler !== e.target) {
+                const parent = toggler.parentNode;
+                const dropdown = toggler.nextElementSibling;
+
+                if (dropdown && parent.classList.contains('active')) {
+                    parent.classList.remove('active');
+
+                    gsap.to(dropdown, {
+                        duration: 0.2,
+                        height: 0,
+                        ease: 'power2.out',
+                    });
+                }
+            }
+        });
+    };
+
+    const handleResize = () => {
+        togglers.forEach((toggler) => {
+            const parent = toggler.parentNode;
+            const dropdown = toggler.nextElementSibling;
+
+            if (dropdown && parent.classList.contains('active')) {
+
+                parent.classList.remove('active');
+                gsap.set(dropdown, {
+                    clearProps: 'all'
+                });
+            }
+        });
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize, false);
+    togglers.forEach((toggler) => {
+        toggler.addEventListener('click', onClick);
+    });
+};
+
     const handleResize = () => {
       togglers.forEach((toggler) => {
           const parent = toggler.parentNode;
