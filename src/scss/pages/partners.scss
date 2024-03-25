@@ -578,21 +578,31 @@
     width: 100%;
     height: auto;
   }
-
+.contact
+{
+  left:0;
+  
+  @include mediumScreens {
+    left: 10em;
+  }
+}
   .hexagon {
     order: 99;
     margin: -50% 0;
-    @include mediumScreens {
+    // @include mediumScreens {
       position: absolute;
       top: 50%;
-      left: 15%;
-      transform: translate(-50%, -50%);
+      left: 0%;
+      transform: translate(-50%);
       order: -1;
       margin-top: 0;
-    }
+      margin-right: 20px;
+    // }
   }
 
   .hexagon img {
+    margin-top: 15em;
+    margin-left: 5em;
     max-width: 626px;
     @include mediumScreens {
       max-width: none;
@@ -603,9 +613,10 @@
     display: grid;
     grid-template: auto / repeat(1, minmax(0, 1fr));
     justify-items: center;
+    height: 600px;
     @include mediumScreens {
-      grid-template: auto / repeat(2, minmax(0, 1fr));
-      justify-items: unset;
+      // grid-template: auto / repeat(2, minmax(0, 1fr));
+      // justify-items: unset;
     }
   }
 

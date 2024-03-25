@@ -27,7 +27,7 @@
     text-align: center;
   }
 
-  .hero-content .heading {
+  .hero-content .heading-difference {
     @include fontHeading2;
     max-width: none;
     margin-left: auto;
@@ -38,7 +38,7 @@
     }
   }
 
-  .hero-content .paragraph {
+  .hero-content .paragraph-difference {
     @include fontBodyXXL;
     font-family: $fontSecondary;
     font-weight: 700;
@@ -61,24 +61,24 @@
 .swiper-carousel {
   margin-top: 80px;
 
-  .swiper-slide .carousel-slide {
+  .swiper-slide .carousel-slide-difference {
     transform: scale(0.8);
     transition: transform .3s ease;
   }
 
-  .swiper-slide-prev .carousel-slide,
-  .swiper-slide-next .carousel-slide {
+  .swiper-slide-prev .carousel-slide-difference,
+  .swiper-slide-next .carousel-slide-difference {
     transform: scale(0.9);
     transition: transform .3s ease;
   }
 
-  .swiper-slide-active .carousel-slide {
+  .swiper-slide-active .carousel-slide-difference {
     transform: scale(1);
     transition: transform .3s ease;
   }
 }
 
-.carousel-slide {
+.carousel-slide-difference {
   position: relative;
 
   .image {
@@ -157,7 +157,7 @@
     pointer-events: none;
   }
 
-  .content {
+  .content-difference {
     position: relative;
     text-align: center;
     max-width: 1100px;
@@ -165,7 +165,7 @@
     margin-right: auto;
   }
 
-  .content .heading {
+  .content-difference .heading-difference {
     @include fontHeading3;
     font-weight: 600;
     @include mediumScreens {
@@ -173,7 +173,7 @@
     }
   }
 
-  .content .buttons {
+  .content-difference .buttons {
     display: flex;
     gap: 16px;
     flex-flow: column nowrap;
@@ -205,7 +205,7 @@
     height: auto;
   }
 
-  .content {
+  .content-difference {
     position: relative;
     text-align: center;
     max-width: 1100px;
@@ -214,7 +214,7 @@
     margin-bottom: 80px;
   }
 
-  .content .heading {
+  .content-difference .heading-difference {
     @include fontHeading3;
     font-weight: 600;
     @include mediumScreens {
@@ -428,11 +428,11 @@
     left: 4%;
   }
 
-  .difference-content-item .title {
+  .difference-content-item .title-difference {
     font-size: 24px;
   }
 
-  .difference-content-item .paragraph {
+  .difference-content-item .paragraph-difference {
     font-size: 16px;
     margin-top: 8px;
   }
@@ -497,7 +497,7 @@
   }
 }
 
-.section-solutions {
+.section-solutions-difference {
   position: relative;
   overflow: hidden;
   background: clr(primary);
@@ -518,7 +518,7 @@
     height: auto;
   }
 
-  .shared-heading {
+  .shared-heading-difference {
     position: relative;
     text-align: center;
     margin-left: auto;
@@ -527,12 +527,12 @@
     //margin-bottom: 0;
   }
 
-  .shared-heading .pretitle {
+  .shared-heading-difference .pretitle-difference {
     margin-bottom: 20px;
     color: rgba(clr(white), 0.6);
   }
 
-  .shared-heading .heading {
+  .shared-heading-difference .heading-difference {
     @include fontHeading3;
     font-weight: 600;
     max-width: 900px;
@@ -543,7 +543,7 @@
     }
   }
 
-  .shared-heading .paragraph {
+  .shared-heading-difference .paragraph-difference {
     @include fontBodyXXL;
     line-height: 1.5;
     margin-top: 40px;
@@ -566,7 +566,7 @@
     }
   }
 
-  .lottie-tab-container {
+  .lottie-tab-container-difference {
     position: relative;
     pointer-events: none;
     margin: 0 auto;
@@ -577,18 +577,18 @@
     max-height: 560px;
   }
 
-  .lottie-tab-container:before {
+  .lottie-tab-container-difference:before {
     content: '';
     display: block;
     padding-bottom: 100%;
   }
 
-  .lottie-tab-container > div {
+  .lottie-tab-container-difference > div {
     position: absolute;
     inset: -30%;
   }
 
-  .lottie-tab-container .lottie-placeholder {
+  .lottie-tab-container-difference .lottie-placeholder {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -598,22 +598,22 @@
     max-width: 100%;
   }
 
-  .content {
+  .content-difference {
     color: clr(white);
   }
 
-  .content .title {
+  .content-difference .title-difference {
     @include fontHeading4;
   }
 
-  .content .paragraph {
+  .content-difference .paragraph-difference {
     @include fontBodyXXL;
     margin-top: 24px;
     color: clr(white);
     line-height: 1.5;
   }
 
-  .content .paragraph strong {
+  .content-difference .paragraph-difference strong {
     font-weight: 500;
   }
 
@@ -636,7 +636,7 @@
     flex: 1;
   }
 
-  .tab-navigation-link {
+  .tab-navigation-link-difference {
     position: relative;
     display: block;
     padding: 0 0 10px;
@@ -650,7 +650,7 @@
     transition: border-color .4s ease, color .4s ease;
   }
 
-  .tab-navigation-link:before {
+  .tab-navigation-link-difference:before {
     content: '';
     position: absolute;
     bottom: -2px;
@@ -660,11 +660,11 @@
     background: rgba(clr(white), 0.2);
   }
 
-  .tab-navigation-link:hover {
+  .tab-navigation-link-difference:hover {
     color: rgba(clr(white), 1);
   }
 
-  .tab-navigation-link.active {
+  .tab-navigation-link-difference.active {
     color: rgba(clr(white), 1);
     border-bottom: 2px solid rgba(clr(white), 1);
   }
@@ -721,25 +721,25 @@
       height: auto;
     }
 
-    .content {
+    .content-difference {
       max-width: 640px;
     }
 
-    .content .title {
+    .content-difference .title-difference {
       @include fontHeading4;
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.01em;
     }
 
-    .content .paragraph {
+    .content-difference .paragraph-difference {
       @include fontBodyXL;
       line-height: 1.5;
       margin-top: 24px;
       color: rgba(clr(primary), 0.8);
     }
 
-    .content ul {
+    .content-difference ul {
       @include fontBodyXL;
       list-style: disc;
       padding-left: 1.5em;
@@ -748,22 +748,22 @@
       color: rgba(clr(primary), 0.8);
     }
 
-    .content ul li + li {
+    .content-difference ul li + li {
       margin-top: 4px;
     }
 
-    &:nth-child(even) .content {
+    &:nth-child(even) .content-difference {
       @include mediumScreens {
         order: 99;
       }
     }
 
-    .content .buttons {
+    .content-difference .buttons {
       margin-top: 24px;
     }
   }
 
-  .layout .media .lottie-tab-container {
+  .layout .media .lottie-tab-container-difference {
     position: relative;
     pointer-events: none;
     margin: 0 auto;
@@ -774,18 +774,18 @@
     max-height: 560px;
   }
 
-  .layout .media .lottie-tab-container:before {
+  .layout .media .lottie-tab-container-difference:before {
     content: '';
     display: block;
     padding-bottom: 100%;
   }
 
-  .layout .media .lottie-tab-container > div {
+  .layout .media .lottie-tab-container-difference > div {
     position: absolute;
     inset: -50%;
   }
 
-  .layout .media .lottie-tab-container > .highlights {
+  .layout .media .lottie-tab-container-difference > .highlights {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -794,7 +794,7 @@
     z-index: -1;
   }
 
-  .layout .media .lottie-tab-container .lottie-placeholder {
+  .layout .media .lottie-tab-container-difference .lottie-placeholder {
     position: absolute;
     top: 50%;
     left: 50%;

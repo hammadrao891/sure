@@ -1,369 +1,379 @@
 import React, { useEffect } from 'react'
-
+import "../../scss/pages/difference.scss"
+import { ScrollTrigger } from 'gsap/all';
+import { loadLottie } from '../../js/utils/loadLottie';
+import gsap from 'gsap';
+import Swiper from 'swiper';
+import { Autoplay } from 'swiper/modules';
+import DifferenceHero from '../../components/DifferenceHero/DifferenceHero';
+import DifferenceScroller from '../../components/DifferenceScroller/DifferenceScroller';
+import DifferenceSection1 from '../../components/DifferenceSection1/DifferenceSection1';
+import DifferenceSection2 from '../../components/DifferenceSection2/DifferenceSection2';
+import DifferenceSection3 from '../../components/DifferenceSection3/DifferenceSection3';
+import DifferenceSection4 from '../../components/DifferenceSection4/DifferenceSection4';
+import DifferenceCTA from '../../components/DifferenceCTA/DifferenceCTA';
+import { handleRevealCTA, handleRevealOnScroll, handleSplitToLines } from '../../js/functions';
 const Difference = () => {
-    useEffect(()=>{
-        // differenceGraphic()
-        // tabsSection()
-        // handleLottieAnimations()
-        // handleRevealOnScroll()
-        // handleSplitToLines()
-        // tabsSection().then(r => {});
-    })
+    useEffect(() => {
+        // Hero Carousel
+        const heroCarousel = () => {
+            const swiperMainContainer = document.querySelector('.swiper-carousel');
+
+            if (swiperMainContainer) {
+                const swiperMain = new Swiper(`.${swiperMainContainer.className}`, {
+                    modules: [Autoplay],
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                    loop: true,
+                    centeredSlides: true,
+                    maxBackfaceHiddenSlides: false,
+                    breakpoints: {
+                        0: {
+                            slidesPerView: 2,
+                            spaceBetween: 10,
+                        },
+                        768: {
+                            slidesPerView: 2.5,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 40,
+                        },
+                        1280: {
+                            slidesPerView: 3.5,
+                            spaceBetween: 40,
+                        },
+                    }
+                });
+            }
+        };
+
+        // Difference graphic
+        const differenceGraphic = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const prism = document.querySelectorAll('.difference-prism .prism');
+            const rings = document.querySelectorAll('.difference-rings .ring');
+            const points = document.querySelectorAll('.difference-points .point');
+            const content = document.querySelectorAll('.difference-content-item');
+            const trigger = document.querySelector('.difference-graphic');
+
+            gsap.set(gsap.utils.toArray(prism), {
+                scale: 0.75,
+                opacity: 0,
+            });
+
+            gsap.set(gsap.utils.toArray(rings), {
+                scale: 0
+            });
+
+            gsap.set(gsap.utils.toArray(points), {
+                scale: 0
+            });
+
+            gsap.set(gsap.utils.toArray(content), {
+                opacity: 0,
+                yPercent: 25,
+            });
+
+            const prismDuration = 0.3;
+            const prismEase = 'expo.out';
+
+            const ringsDuration = 0.3;
+            const ringsEase = 'expo.out';
+
+            const pointsDuration = 0.3;
+            const pointsEase = 'back.out(1.5)';
+
+            const contentsDuration = 0.3;
+            const contentsEase = 'expo.out';
+
+            // Create a GSAP timeline
+            const tl = gsap.timeline({ paused: true });
+
+            tl.to(prism[0], { scale: 1, opacity: 1, duration: prismDuration, ease: prismEase });
+
+            tl.add('content');
+
+            for (let index = 0; index < 1; index++) {
+                tl.to(rings[index], { scale: 1, duration: ringsDuration, ease: ringsEase }, `content+=${index * ringsDuration}`);
+            }
+
+            tl.to(points[1], { scale: 1, duration: pointsDuration, ease: pointsEase }, `>`);
+
+            for (let index = 1; index < 5; index++) {
+                tl.to(rings[index], { scale: 1, duration: ringsDuration, ease: ringsEase }, `content+=${index * ringsDuration}`);
+            }
+
+            tl.to(points[2], { scale: 1, duration: pointsDuration, ease: pointsEase }, `>`);
+
+            for (let index = 5; index < 6; index++) {
+                tl.to(rings[index], { scale: 1, duration: ringsDuration, ease: ringsEase }, `content+=${index * ringsDuration}`);
+            }
+
+            tl.to(points[0], { scale: 1, duration: pointsDuration, ease: pointsEase }, `>`);
+
+            for (let index = 0; index < 6; index++) {
+                tl.to(content[index], { opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase }, `content+=${index * contentsDuration}`);
+            }
+
+            // Use ScrollTrigger to trigger the animation when scrolling to the element
+            ScrollTrigger.create({
+                trigger: trigger,
+                id: 'graphic',
+                start: () => `top center`, // Adjust the starting point as needed
+                end: 'top center', // Adjust the starting point as needed
+                animation: tl,
+                // markers: true, // Display markers for debugging (you can remove this in production)
+                toggleActions: 'play none none none', // Define toggle actions for the trigger
+            });
+
+            const elementToReveal = content;
+            const staggerDuration = 0.1;
+
+            const animateIn = (batch) => {
+                gsap.to(batch, {
+                    opacity: 1,
+                    yPercent: 0,
+                    stagger: staggerDuration,
+                });
+            };
+
+            elementToReveal.forEach((element, i) => {
+                let r = getComputedStyle(document.querySelector(':root'));
+                let globalPaddingY = parseInt(r.getPropertyValue('--sectionPaddingY'));
+
+                gsap.set(element, {
+                    'will-change': 'transform, opacity',
+                    opacity: 0,
+                    yPercent: 15,
+                });
+
+                const batchElements = element.parentNode.querySelectorAll('.difference-content-item');
+
+                ScrollTrigger.matchMedia({
+                    '(max-width: 767px)': () => {
+                        ScrollTrigger.batch(batchElements, {
+                            id: 'reveal-batch-on-scroll',
+                            start: () => `top bottom-=${globalPaddingY * 0.5}`,
+                            end: () => `bottom top+=${globalPaddingY * 0.5}`,
+                            invalidateOnRefresh: true,
+                            onEnter: (batch) => animateIn(batch),
+                        });
+                    },
+                });
+            });
+        };
+
+        // Tabs
+        const tabsSection = () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const scroller = document.querySelector('.scrollTrigger-scroller');
+
+            // Add event listeners to tab navigation links
+            const tabLinks = document.querySelectorAll('.tab-navigation-link-difference');
+            const tabItems = document.querySelectorAll('.tab-item');
+
+            let isSwitching = false, // Flag to track if a tab switch is in progress
+                hasScrollTrigger = false;
+
+            let scrollTrigger; // Variable to hold the ScrollTrigger instance
+
+            // Function to update ScrollTrigger's progress
+            const updateScrollTriggerProgress = (tabIndex) => {
+                if (window.innerWidth < 1024) {
+                    return;
+                }
+                if (scrollTrigger) {
+                    const scrollToPoint = scrollTrigger.start + (tabIndex * ((scrollTrigger.end - scrollTrigger.start) / tabItems.length));
+                    scrollTrigger.scroll(scrollToPoint + 40);
+                }
+            };
+
+            const switchTabWithAnimation = (tabIndex) => {
+                const selectedTab = tabItems[tabIndex];
+                const selectedNavItem = tabLinks[tabIndex];
+
+                if (!selectedTab.classList.contains('active')) {
+                    if (isSwitching) return;
+
+                    isSwitching = true;
+                    tabLinks.forEach((link) => {
+                        link.classList.remove('active');
+                    });
+
+                    selectedNavItem.classList.add('active');
+
+                    tabItems.forEach((item, i) => {
+                        const tl = gsap.timeline({ paused: true, ease: 'ease.out' });
+
+                        tl.to(item, {
+                            duration: 0.4,
+                            opacity: 0,
+                        }).to(item.querySelector('.content'), {
+                            duration: 0.4,
+                            scale: 0.95,
+                        }, '<').to(item.querySelector('.media'), {
+                            duration: 0.4,
+                            scale: 0.95,
+                            onComplete: () => {
+                                gsap.set(gsap.utils.toArray(tabItems), {
+                                    display: 'none'
+                                });
+
+                                gsap.set(selectedTab, {
+                                    clearProps: 'display'
+                                });
+
+                                if (window.innerWidth > 1023) {
+                                    document.querySelector('.tab-container').style.minHeight = document.querySelectorAll('.tab-item')[tabIndex].querySelector('.layout').clientHeight + 40 + 'px';
+                                    ScrollTrigger.getById('tabScroller').refresh();
+                                }
+
+                                item.classList.remove('active');
+
+                                selectedTab.classList.add('active');
+
+                                gsap.set(selectedTab.querySelector('.content'), { xPercent: -5, scale: 1 });
+                                gsap.set(selectedTab.querySelector('.media'), { xPercent: 5, scale: 1 });
+
+                                const tl = gsap.timeline({ paused: true, ease: 'ease.out' });
+
+                                const activeLottie = item.querySelector('.lottie-animation-container');
+
+                                tl.to(selectedTab, {
+                                    duration: 0.2,
+                                    opacity: 1,
+                                }).to(selectedTab.querySelector('.content'), {
+                                    duration: 0.2,
+                                    xPercent: 0,
+                                }, '<').to(selectedTab.querySelector('.media'), {
+                                    duration: 0.2,
+                                    xPercent: 0,
+                                }, '<');
+
+                                tl.play();
+
+                                if (activeLottie && activeLottie.lottieAnimation) {
+                                    activeLottie.lottieAnimation.goToAndPlay(0);
+                                }
+
+                                isSwitching = false;
+                            }
+                        }, '<');
+
+                        tl.play();
+                    });
+                }
+            };
+
+            // Modify the click event listener for tabLinks
+            tabLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    updateScrollTriggerProgress(index);
+                    if (window.innerWidth >= 1024) {
+                        return;
+                    }
+                    switchTabWithAnimation(index);
+                });
+            });
+
+            const offset = () => {
+                let r = getComputedStyle(document.querySelector(':root'));
+                let globalPaddingY = parseInt(r.getPropertyValue('--sectionPaddingY'));
+
+                return scroller.querySelector('.shared-heading-difference').clientHeight + globalPaddingY;
+            };
+
+            const createScrollTrigger = () => {
+                return new Promise((resolve, reject) => {
+                    ScrollTrigger.matchMedia({
+                        '(min-width: 1024px)': () => {
+                            scrollTrigger = ScrollTrigger.create({
+                                trigger: scroller,
+                                id: 'tabScroller',
+                                start: () => `top+=${offset() - document.querySelector('header').clientHeight}px center-=${offset()}px`,
+                                end: () => `top+=${(window.innerHeight * tabItems.length)}px center`,
+                                pin: true,
+                                scrub: true,
+                                toggleActions: 'play none none reverse',
+                                invalidateOnRefresh: true,
+                                onUpdate: (self) => {
+                                    if (isSwitching) return;
+
+                                    // Calculate the current tab index based on the scroll position
+                                    let tabIndex = Math.floor(self.progress * tabItems.length);
+
+                                    tabIndex = Math.min(tabItems.length - 1, tabIndex); // Ensure it doesn't exceed the number of tabs
+
+                                    // Switch to the new tab
+                                    switchTabWithAnimation(tabIndex);
+
+                                    ScrollTrigger.getAll().forEach((st) => {
+                                        if (!st.trigger.classList.contains('tab-container') && !st.trigger.classList.contains('tab-navigation')) {
+                                            st.refresh();
+                                        }
+                                    });
+                                },
+                            });
+                        }
+                    });
+
+                    hasScrollTrigger = true;
+                    resolve();
+                });
+            };
+
+            // Initially show the first tab
+            switchTabWithAnimation(0);
+
+            // Return the promise from createScrollTrigger
+            return createScrollTrigger();
+        };
+
+        // Load Lottie animation for a single element
+        const handleLottieAnimations = async () => {
+            const animationContainers = document.querySelectorAll('.lottie-animation-container');
+
+            for (const container of animationContainers) {
+                const jsonFile = container.getAttribute('data-animation-json');
+                const animation = await loadLottie(jsonFile, container);
+
+                container.lottieAnimation = animation;
+
+                if (animation) {
+                    // ScrollTrigger.create({
+                    //     trigger: container,
+                    //     start: 'top center',
+                    //     end: 'bottom center',
+                    //     onEnter: () => animation.play(),
+                    // });
+                }
+            }
+        };
+
+        // Call functions when the DOM content is loaded
+        heroCarousel();
+        differenceGraphic();
+        tabsSection().then(r => {});
+        handleLottieAnimations();
+        handleRevealCTA()
+        handleSplitToLines()
+        handleRevealOnScroll()
+    }, []);
+
   return (
     <div>
-      <section className="shared-hero">
-                <div className="decor">
-                    <img
-                        className="colors d-none d-md-block"
-                        src="img/teams/ColorsHero.svg"
-                        alt=""
-                    />
-                    <img
-                        className="colors d-block d-md-none"
-                        src="img/teams/ColorsHero@mobile.svg"
-                        alt=""
-                    />
-                </div>
-                <div className="container">
-                    <div className="hero-content">
-                        <span className="pretitle">Our Difference</span>
-                        <h1 className="heading js-reveal-on-scroll js-split-to-lines"><span className="text-gradient">Personalized Solutions</span><br className="d-none d-md-block"/> in the Flow of Work</h1>
-                    </div>
-                    <div className="hero-media">
-                        <div className="difference-graphic">
-                            <div className="difference-graphic-inner">
-                                <div className="difference-prism">
-                                    <img
-                                        className="colors d-none d-md-block"
-                                        src="img/difference/ColorsPrism.svg"
-                                        alt=""
-                                    />
-                                    <img
-                                        className="colors d-block d-md-none"
-                                        src="img/difference/ColorsPrism@mobile.svg"
-                                        alt=""
-                                    />
-                                    <img
-                                        className="prism"
-                                        src="img/difference/Prism.svg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="difference-rings">
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                    <div className="ring"></div>
-                                </div>
-                                <div className="difference-points">
-                                    <div className="point"></div>
-                                    <div className="point"></div>
-                                    <div className="point"></div>
-                                </div>
-                            </div>
-                            <div className="difference-content">
-                                <div className="difference-content-item">
-                                    <img className="icon" src="img/difference/icons/Prism.svg" alt="" />
-                                    <h6 className="title">Prism</h6>
-                                    <p className="paragraph">Understand how you – and each team member – are uniquely wired to perform.</p>
-                                </div>
-                                <div className="difference-content-item">
-                                    <img className="icon" src="img/difference/icons/SelfKnowledge.svg" alt="" />
-                                    <h6 className="title">Self-knowledge</h6>
-                                    <p className="paragraph">Reveal the “Story of You” (and your team members) across 54 key traits and attributes.</p>
-                                </div>
-                                <div className="difference-content-item">
-                                    <img className="icon" src="img/difference/icons/Coaching.svg" alt="" />
-                                    <h6 className="title">Coaching in the Flow of Work</h6>
-                                    <p className="paragraph">Coach team members and successfully navigate any business challenge with the AI-driven My Coach.  </p>
-                                </div>
-                                <div className="difference-content-item">
-                                    <img className="icon" src="img/difference/icons/Science.svg" alt="" />
-                                    <h6 className="title">The Science of Successful Meetings</h6>
-                                    <p className="paragraph">Meetings. Maximize 1-on-1 meetings with “How to Approach” and “What to Avoid” guidance.</p>
-                                </div>
-                                <div className="difference-content-item">
-                                    <img src="img/difference/icons/PersonalizedDevelopment.svg" alt="" />
-                                    <h6 className="title">Personalized Development</h6>
-                                    <p className="paragraph">Deliver automated learning journeys mapped to Prism recommendations and featuring Harvard Business Publishing Content.</p>
-                                </div>
-                                <div className="difference-content-item">
-                                    <img className="icon" src="img/difference/icons/RelationshipAdivsor.svg" alt="" />
-                                    <h6 className="title">Relationship Advisor</h6>
-                                    <p className="paragraph">Build trusted relationships, based on how each person is wired and guided by your organization’s values.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-solutions scrollTrigger-scroller">
-                <div className="decor">
-                    <img
-                        className="colors d-none d-md-block"
-                        src="img/difference/ColorsSolutions.svg"
-                        alt=""
-                    />
-                    <img
-                        className="colors d-block d-md-none"
-                        src="img/difference/ColorsSolutions@mobile.svg"
-                        alt=""
-                    />
-                </div>
-                <div className="container">
-                    <div className="shared-heading">
-                        <span className="pretitle js-reveal-on-scroll">Prism</span>
-                        <h3 className="heading js-reveal-on-scroll js-split-to-lines">Solutions Powered by How You’re Wired</h3>
-                        <p className="paragraph js-reveal-on-scroll js-split-to-lines">
-                            At the heart of the SurePeople ecosystem is Prism® – a proprietary psychometric algorithm that measures 54 key traits and attributes, providing the richest, most nuanced understanding of how we and those around us are naturally wired.
-                        </p>
-                    </div>
-                    <div className="tab-layout">
-                        <nav className="tab-navigation js-reveal-on-scroll">
-                            <ul className="tab-navigation-menu">
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Personality</a>
-                                </li>
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Processing</a>
-                                </li>
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Decision Making</a>
-                                </li>
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Conflict Management</a>
-                                </li>
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Motivation</a>
-                                </li>
-                                <li className="tab-navigation-item">
-                                    <a href="#" className="tab-navigation-link">Fundamental Needs</a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <div className="tab-container js-reveal-on-scroll">
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Personality</h3>
-                                        <p className="paragraph">
-                                            Our personalities often reflect how others perceive us. We might come off as being determined and powerful, analytical and precise, charismatic and versatile, dependable and amiable, or some combination of those traits. When faced  with challenges, we can even shift and leverage other traits. Simply put, the <span>Prism<sup>&reg;</sup></span> personality module tells you what makes you, you.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_01.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Processing</h3>
-                                        <p className="paragraph">
-                                            Many of us process information in different ways. How we prefer to focus our energy, take in information, assess different situations, and deal with our outside environments make us unique. With <span>Prism<sup>&reg;</sup></span>, you will gain valuable insights  into how you process the world around you.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_02.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Decision Making</h3>
-                                        <p className="paragraph">
-                                            We make big and small decisions every day. Some people prefer to examine all options, while others trust their gut and move quickly. We can also differ in how much we want to include others in the process. <span>Prism<sup>&reg;</sup></span> uncovers your preferences, allowing you to feel more confident in your choices.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div id="lottie-decision-making-tab"></div>
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_03.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Conflict Management</h3>
-                                        <p className="paragraph">
-                                            When individuals encounter conflict, they tend to respond with one of five styles. You might decide to put your foot down and defend your position, withdraw and pick another fight, sacrifice to make someone else happy, participate in a give-and-take approach, or work to ensure everyone wins. <span>Prism<sup>&reg;</sup></span> identifies your preferred styles for dealing with conflict.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_04.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Motivation</h3>
-                                        <p className="paragraph">
-                                            What pushes you to get out of bed every morning? What causes you to go the extra mile at work, or prevents you from having that extra cookie at dinner? Our motivations serve as the driving forces behind our actions, as we strive  to achieve our goals. <span>Prism<sup>&reg;</sup></span> sheds light on 14 different motivations that influence our daily life.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_05.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-item">
-                                <div className="layout">
-                                    <div className="content">
-                                        <h3 className="title">Fundamental Needs</h3>
-                                        <p className="paragraph">
-                                            There are three fundamental needs that guide and dictate our behaviors. We are in constant battle to find a balance between the desires to make a significant difference in the world, to achieve stability and security, and to gain mastery and control. <span>Prism<sup>&reg;</sup></span> will tell you which of the three is most dominant for you at any given time.
-                                        </p>
-                                    </div>
-                                    <div className="media">
-                                        <div className="lottie-tab-container">
-                                            <div className="lottie-animation-container" data-animation-json="img/difference/lottie/07_06.json"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-difference section-difference-1">
-                <div className="decor">
-                    <img
-                        className="colors d-none d-md-block"
-                        src="img/difference/ColorsBody1.svg"
-                        alt=""
-                    />
-                    <img
-                        className="colors d-block d-md-none"
-                        src="img/difference/ColorsBody1@mobile.svg"
-                        alt=""
-                    />
-                </div>
-                <div className="container">
-                    <div className="layout">
-                        <div className="content">
-                            <h3 className="title js-reveal-on-scroll js-split-to-lines">Speed-to-Impact</h3>
-                            <p className="paragraph js-reveal-on-scroll js-split-to-lines">We’re about speed-to-impact and ROI. Our cloud-based solution is easy to implement, easy to administer, and easy for leaders and teams to use in the flow of work. Whether for a single leader and team, a business unit, or the entire enterprise, our flexible solution scales based on your needs.</p>
-                        </div>
-                        <div className="media js-reveal-on-scroll js-fade-in-up">
-                            <div className="lottie-tab-container">
-                                <img className="lottie-placeholder" src="img/difference/stack/SpeedToImpact.svg" alt="" />
-                                <img className="highlights" src="img/difference/stack/Circle1.svg" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-difference section-difference-2">
-                <div className="container">
-                    <div className="layout">
-                        <div className="content order-md-last">
-                            <h3 className="title js-reveal-on-scroll js-split-to-lines">Trusted Partner</h3>
-                            <p className="paragraph js-reveal-on-scroll js-split-to-lines">Our team is committed to delivering positive, measurable outcomes for all stakeholders – our valued team members, customers, partners, and investors – by operating through our values and standing true to our mission: To make people sure of themselves and organizations sure of their people.®</p>
-                        </div>
-                        <div className="media js-reveal-on-scroll js-fade-in-up">
-                            <div className="lottie-tab-container">
-                                <img className="lottie-placeholder" src="img/difference/stack/TrustedPartner.svg" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-difference section-difference-3">
-                <div className="container">
-                    <div className="layout">
-                        <div className="content">
-                            <h3 className="title js-reveal-on-scroll js-split-to-lines">Seamless Integration with Your Tech Stack</h3>
-                            <p className="paragraph js-reveal-on-scroll js-split-to-lines">One of SurePeople’s key value propositions lies in the flexibility and interoperability of our solution. We understand the importance of seamlessly and securely integrating with other software systems and services in our customers' technology stack. With seamless integration to leading HCM suites and LXP/LMS solutions, we help increase end-user adoption, engagement, and satisfaction with your existing technology stack, so that you can drive higher ROI from your investments.</p>
-                        </div>
-                        <div className="media js-reveal-on-scroll js-fade-in-up">
-                            <div className="lottie-tab-container">
-                                <img className="lottie-placeholder" src="img/difference/stack/SeamlessIntegration.svg" alt="" />
-                                <img className="highlights" src="img/difference/stack/Circle2.svg" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-difference section-difference-4">
-                <div className="decor">
-                    <img
-                        className="colors d-none d-md-block"
-                        src="img/difference/ColorsBody2.svg"
-                        alt=""
-                    />
-                    <img
-                        className="colors d-block d-md-none"
-                        src="img/difference/ColorsBody2@mobile.svg"
-                        alt=""
-                    />
-                </div>
-                <div className="container">
-                    <div className="layout">
-                        <div className="content order-md-last">
-                            <h3 className="title js-reveal-on-scroll js-split-to-lines">Scalable and Secure</h3>
-                            <p className="paragraph js-reveal-on-scroll js-split-to-lines">We offer a cloud-based, highly secure, and scalable solution powered by AWS.</p>
-                            <ul>
-                                <li>Comprehensive, end-to-end security and compliance measures</li>
-                                <li>All data is fully encrypted in flight and at rest</li>
-                                <li>Highest standards for privacy and data security</li>
-                                <li>Routine reviews & audits performed by independent security leaders</li>
-                                <li>GDPR and CCPA compliant</li>
-                            </ul>
-                        </div>
-                        <div className="media js-reveal-on-scroll js-fade-in-up">
-                            <div className="lottie-tab-container">
-                                <img className="lottie-placeholder" src="img/difference/stack/ScalableSecure.svg" alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="shared-section section-cta">
-                <div className="decor">
-                    <img
-                        className="colors d-none d-md-block"
-                        src="img/teams/ColorsCTA2.svg"
-                        alt=""
-                    />
-                    <img
-                        className="colors d-block d-md-none"
-                        src="img/teams/ColorsCTA2@mobile.svg"
-                        alt=""
-                    />
-                </div>
-                <img className="hexagon js-reveal-on-scroll js-fade-in" src="img/teams/Hexagon.svg" alt="" />
-                <div className="container">
-                    <div className="content">
-                        <h3 className="heading js-reveal-on-scroll js-split-to-lines">Ready to Elevate Your Leadership and Achieve Extraordinary Team Results?</h3>
-                        <div className="buttons js-reveal-on-scroll">
-                            <a href="#" className="btn btn-lg btn-white">Buy Now</a>
-                            <a href="#" className="btn btn-lg btn-outline-white">Contact Sales</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <DifferenceHero/>
+            <DifferenceScroller/>
+            <DifferenceSection1/>
+            <DifferenceSection2/>
+            <DifferenceSection3/>
+            <DifferenceSection4/>
+            <DifferenceCTA/>
     </div>
   )
 }
