@@ -18,9 +18,9 @@ const DifferenceSection4 = () => {
                 </div>
                 <div className="container">
                     <div className="layout">
-                        <div className="content order-md-last">
-                            <h3 className="title js-reveal-on-scroll js-split-to-lines">Scalable and Secure</h3>
-                            <p className="paragraph js-reveal-on-scroll js-split-to-lines">We offer a cloud-based, highly secure, and scalable solution powered by AWS.</p>
+                        <div className="content-difference order-md-last">
+                            <h3 className="title-difference js-reveal-on-scroll js-split-to-lines">Scalable and Secure</h3>
+                            <p className="paragraph-difference js-reveal-on-scroll js-split-to-lines">We offer a cloud-based, highly secure, and scalable solution powered by AWS.</p>
                             <ul>
                                 <li>Comprehensive, end-to-end security and compliance measures</li>
                                 <li>All data is fully encrypted in flight and at rest</li>

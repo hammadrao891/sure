@@ -12,17 +12,9 @@ import AdditionalResources from '../../components/AdditionalResources/Additional
 const TrustCenter = () => {
   return (
     <div>
-      
-      <CookieNotice/>
-      <Navigation/>
-      <div id="page-wrapper">
-        <main>
         <TrustCenterHero/>
         <TrustCenterMain/>
         <AdditionalResources/>
-        </main>
-      <Footer/>
-</div>
     </div>
   )
 }

@@ -8,7 +8,6 @@ function Leadership (){
 return(
     <>
     <LeadershipMain/>
-     <Footer/>
     </>
 )
 }

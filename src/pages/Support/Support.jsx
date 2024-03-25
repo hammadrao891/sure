@@ -91,14 +91,9 @@ handleRevealOnScroll()
     return(
         <>
            <Navigation/>
-            <div id="page-wrapper">
-             <main>
             <SupportHero/>
             <SupportForm/>
-            </main>
-            <Footer/>
-            </div>
-        </>
+           </>
     )
 }
 

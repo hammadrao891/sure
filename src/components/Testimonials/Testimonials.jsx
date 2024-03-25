@@ -7,7 +7,8 @@ import { videoModal } from "../../js/utils/videoModal";
 import TestimonialHeading from "../TestimonialHeading/TestimonialHeading";
 function Testimonials()
 {
-useEffect(()=>{const customerTestimonials = () => {
+useEffect(()=>{
+    const customerTestimonials = () => {
 
     // Function to update padding based on the active element
     function updatePadding() {
