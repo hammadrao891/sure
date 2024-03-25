@@ -271,12 +271,6 @@
 //}
 
 .tab-layout {
-  counter-reset: section;
-
-  .tab-item {
-    counter-increment: section;
-  }
-
   .layout {
     display: grid;
     grid-template: auto / repeat(1, minmax(0, 1fr));
@@ -341,8 +335,8 @@
     margin-bottom: 32px;
   }
 
-  .content .category:before {
-    content: counter(section);
+  .content .category .no {
+    content: counter(tab);
     @include fontBodyLG;
     width: 2em;
     height: 2em;

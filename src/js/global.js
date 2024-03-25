@@ -1,4 +1,4 @@
-import '../scss/app.scss';
+// import '../scss/app.scss';
 
 /// gsap
 import {Expo, gsap} from 'gsap';
@@ -12,6 +12,7 @@ import SplitType from 'split-type';
 import initiateObserver from './utils/revealObserver';
 
 document.addEventListener('DOMContentLoaded', () => {
+    cookieNotice();
     fixNavbarOnScroll();
     mobileNavigation();
     mobileCollapseMenu();
@@ -21,9 +22,49 @@ document.addEventListener('DOMContentLoaded', () => {
     handleSplitToLines();
     handleRevealOnScroll();
     handleRevealCTA();
-    videoModal();
     initiateObserver();
 });
+
+// Cookie notice
+const cookieNotice = () => {
+    const cookieNotice = document.querySelector('.js-cookie-notice');
+    const acceptCookie = document.querySelector('.js-cookie-accept');
+    const declineCookie = document.querySelector('.js-cookie-decline');
+
+    // Utility functions for cookies management
+    const setCookie = (name, value, days) => {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        let expires = 'expires=' + d.toUTCString();
+        document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax`;
+    };
+
+    const getCookie = (name) => {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');
+        for (let c of ca) {
+            while (c.charAt(0) === ' ') c = c.substring(1);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    };
+
+    const checkCookieConsent = () => {
+        // Check if the cookie consent has been set
+        const consent = getCookie('cookiePreference');
+        cookieNotice.style.display = consent ? 'none' : 'block';
+    };
+
+    const handleConsent = (accepted = false) => {
+        // Set cookie based on user acceptance, valid for 365 days
+        setCookie('cookiePreference', accepted ? 'accepted' : 'declined', 30);
+        cookieNotice.style.display = 'none';
+    };
+
+    checkCookieConsent();
+    acceptCookie.addEventListener('click', () => handleConsent(true));
+    declineCookie.addEventListener('click', () => handleConsent(false));
+};
 
 // Fixed navbar on scroll
 const fixNavbarOnScroll = () => {
@@ -44,7 +85,7 @@ const fixNavbarOnScroll = () => {
 };
 
 // Split text to lines
-const handleSplitToLines = () => {
+export const handleSplitToLines = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const splitToLines = document.querySelectorAll('.js-split-to-lines');
@@ -67,6 +108,10 @@ const handleSplitToLines = () => {
             stagger: 0.1,
             onComplete: () => {
                 batch.forEach((batchEl) => {
+                    gsap.set(batchEl, {
+                        clearProps: 'all'
+                    });
+
                     // Check if the current element or any of its children have the class 'highlight'
                     const highlightEl = batchEl.querySelector('.highlight');
 
@@ -168,6 +213,11 @@ const handleRevealOnScroll = () => {
             opacity: 1,
             yPercent: 0,
             stagger: staggerDuration,
+            onComplete: () => {
+                gsap.set(batch, {
+                    clearProps: 'all',
+                });
+            }
         });
     };
 
@@ -218,6 +268,11 @@ const handleRevealOnScroll = () => {
 
                     tl.to(element, {
                         opacity: 1,
+                        onComplete: () => {
+                            gsap.set(element, {
+                                clearProps: 'all',
+                            });
+                        }
                     });
                 } else if (element.classList.contains('js-scale-in')) {
                     gsap.set(element, {
@@ -229,6 +284,11 @@ const handleRevealOnScroll = () => {
                     tl.to(element, {
                         opacity: 1,
                         scale: 1,
+                        onComplete: () => {
+                            gsap.set(element, {
+                                clearProps: 'all',
+                            });
+                        }
                     });
                 } else {
                     gsap.set(element, {
@@ -242,6 +302,11 @@ const handleRevealOnScroll = () => {
                         opacity: 1,
                         yPercent: 0,
                         y: 0,
+                        onComplete: () => {
+                            gsap.set(element, {
+                                clearProps: 'all',
+                            });
+                        }
                     });
                 }
 
@@ -253,7 +318,7 @@ const handleRevealOnScroll = () => {
                     start: () => `top bottom-=${globalPaddingY * 0.5}`,
                     end: () => `bottom top+=${globalPaddingY * 0.5}`,
                     animation: tl,
-                    toggleActions: 'play none none reverse',
+                    toggleActions: 'play none none none',
                     invalidateOnRefresh: true,
                 });
             }
@@ -360,8 +425,8 @@ const mobileCollapseMenu = () => {
     const onClick = (e) => {
         e.preventDefault();
 
-        const parent = e.target.parentNode;
-        const dropdown = e.target.nextElementSibling;
+        const parent = e.currentTarget.parentNode;
+        const dropdown = e.currentTarget.nextElementSibling;
 
         // open clicked dropdown
         if (parent.classList.contains('active')) {
@@ -389,7 +454,7 @@ const mobileCollapseMenu = () => {
 
         // close previously opened dropdowns
         togglers.forEach((toggler) => {
-            if (toggler !== e.target) {
+            if (toggler !== e.currentTarget) {
                 const parent = toggler.parentNode;
                 const dropdown = toggler.nextElementSibling;
 
@@ -639,7 +704,7 @@ const languageSelector = () => {
     elements.forEach((element) => onClick(element));
 };
 
-const drawSVGPath = (element) => {
+export const drawSVGPath = (element) => {
     // Assuming 'element' is a single SVG path element
     element.closest('.js-draw-path').style.opacity = '1';
 
@@ -694,127 +759,3 @@ const observer = new IntersectionObserver((entries, observer) => {
 document.querySelectorAll('.js-draw-path path').forEach(path => {
     observer.observe(path);
 });
-
-// Dynamically Generated Video Modal
-const videoModal = () => {
-    const trigger = document.querySelectorAll('.js-video-modal');
-    const body = document.body;
-
-    let tl,
-        modal,
-        modalContent;
-
-    function playVimeo(player) {
-        player.play().then(function () {
-            console.log('Video is playing');
-        }).catch(function (error) {
-            console.error('Error playing the video:', error.name);
-        });
-    }
-
-    const setModalContent = (element) => {
-        element.video = element.querySelector('.js-video > *');
-
-        // create master modal div
-        modal = document.createElement('div');
-        modal.classList.add('f-modal');
-
-        // create modal divs
-        const modalClose = document.createElement('div');
-        const modalContent = document.createElement('div');
-        const modalLayout = document.createElement('div');
-
-        // add classes to modal divs
-        modalClose.classList.add('f-modal-close');
-        modalContent.classList.add('f-modal-content');
-        modalLayout.classList.add('f-modal-layout');
-
-        // assemble modal divs
-        modal.append(modalClose);
-        modal.append(modalContent);
-
-        // create member layout divs
-        const modalLayoutVideo = document.createElement('div');
-
-        // add classes to member layout divs
-        modalLayoutVideo.classList.add('f-modal-video');
-
-        // set content from the target element
-        modalLayoutVideo.innerHTML = `${element.video.outerHTML}`;
-
-        // assemble member layout
-        modalContent.append(modalLayoutVideo);
-
-        document.body.append(modal); // append modal to body
-
-        // animate opening modal
-        openModal(element);
-    };
-
-    const openModal = (element) => {
-        tl = gsap.timeline({reversed: true, pause: true});
-        modalContent = modal.querySelector('.f-modal-content');
-
-        modal.classList.add('open');
-
-        tl.set(modalContent, {
-            scale: 0.95,
-            opacity: 0
-        });
-
-        tl.to(modal, {
-            duration: 0.2,
-            opacity: 1,
-            onStart: () => {
-                body.classList.add('overflow-hidden');
-            },
-            onReverseComplete: () => {
-                body.classList.remove('overflow-hidden');
-                modal.classList.remove('open');
-                modal.remove();
-            }
-        }, '<+0.1').to(modalContent, {
-            duration: 0.2,
-            opacity: 1,
-            scale: 1,
-            onComplete: () => {
-                const HTML5Video = modalContent.querySelector('.f-modal-video video');
-
-                if (HTML5Video) {
-                    HTML5Video.play();
-                } else {
-                    const iframe = modalContent.querySelector('.f-modal-video iframe');
-                    const player = new Vimeo.Player(iframe);
-
-                    playVimeo(player);
-                }
-            }
-        });
-
-        tl.play();
-    };
-
-    // bind on click
-    trigger.forEach(element => {
-        element.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const target = e.currentTarget;
-
-            if (target.classList.contains('customer-testimonial') && target.parentNode.classList.contains('active')) {
-                setModalContent(target);
-            } else if (!target.classList.contains('customer-testimonial')) {
-                setModalContent(target);
-            }
-
-            // openModal(element);
-        });
-    });
-
-    // close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (modal && modal.contains(e.target) && !modalContent.contains(e.target)) {
-            tl.reverse();
-        }
-    });
-};

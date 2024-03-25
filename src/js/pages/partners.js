@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Tabs
-const tabsSection = () => {
+export const tabsSection = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const scroller = document.querySelector('.scrollTrigger-scroller');
@@ -74,7 +74,7 @@ const tabsSection = () => {
 
                         if (window.innerWidth > 1023) {
                             document.querySelector('.tab-container').style.minHeight = document.querySelectorAll('.tab-item')[tabIndex].querySelector('.layout').clientHeight + 40 + 'px';
-                            ScrollTrigger.refresh();
+                            ScrollTrigger.getById('tabScroller').refresh();
                         }
 
                         item.classList.remove('active');
@@ -131,6 +131,17 @@ const tabsSection = () => {
         return scroller.querySelector('.shared-heading').clientHeight + globalPaddingY;
     };
 
+    function hasParentWithClass(element, className) {
+        while (element) {
+            element = element.parentElement;
+            if (!element) break; // If no parent element exists, exit the loop
+            if (element.classList.contains(className)) {
+                return true; // Found the parent with the specified class
+            }
+        }
+        return false; // No parent with the specified class was found
+    }
+
     const createScrollTrigger = () => {
         return new Promise((resolve, reject) => {
             ScrollTrigger.matchMedia({
@@ -138,7 +149,7 @@ const tabsSection = () => {
                     scrollTrigger = ScrollTrigger.create({
                         trigger: scroller,
                         id: 'tabScroller',
-                        start: () => `top top-=${offset() + 40}px`,
+                        start: () => `top top-=${offset() + 40 - document.querySelector('header').clientHeight}px`,
                         end: () => `top+=${(window.innerHeight * tabItems.length)}px center`,
                         pin: true,
                         scrub: true,
@@ -154,6 +165,12 @@ const tabsSection = () => {
 
                             // Switch to the new tab
                             switchTabWithAnimation(tabIndex);
+
+                            ScrollTrigger.getAll().forEach((st) => {
+                                if (!st.trigger.classList.contains('tab-container') && !st.trigger.classList.contains('tab-navigation')) {
+                                    st.refresh();
+                                }
+                            });
                         },
                     });
                 }
@@ -172,7 +189,7 @@ const tabsSection = () => {
 };
 
 // Load Lottie animation for a single element
-const handleLottieAnimations = async () => {
+export const handleLottieAnimations = async () => {
     const animationContainers = document.querySelectorAll('.lottie-animation-container');
 
     for (const container of animationContainers) {

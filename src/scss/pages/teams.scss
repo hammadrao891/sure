@@ -2,6 +2,7 @@
 @import '../mixins/vivid';
 
 .shared-hero {
+  
   padding: calc(50px + var(--navbarH)) 0 90px;
   @include mediumScreens {
     padding: calc(100px + var(--navbarH)) 0 112px;
@@ -17,11 +18,14 @@
   }
 
   > .decor img {
+    
     width: 100%;
     height: auto;
   }
 
   .hero-content {
+    
+
     position: relative;
     z-index: 3;
     text-align: center;
@@ -38,7 +42,7 @@
     }
   }
 
-  .hero-content .paragraph {
+  .hero-content .paragraph-teams {
     @include fontBodyXXL;
     font-family: $fontSecondary;
     font-weight: 700;
@@ -58,42 +62,67 @@
   }
 }
 
+
+
+
 .swiper-carousel {
+  
+  width: 100%;
   margin-top: 80px;
 
-  .swiper-slide .carousel-slide {
+  .swiper-slide .carousel-slide-teams {
     transform: scale(0.8);
     transition: transform .3s ease, translate .3s ease;
   }
 
-  .swiper-slide-prev .carousel-slide {
+  .swiper-slide-prev .carousel-slide-teams {
     //transform-origin: left center;
     translate: -5% 0%;
   }
 
-  .swiper-slide-next .carousel-slide {
+  .swiper-slide-next .carousel-slide-teams {
     //transform-origin: right center;
     translate: 5% 0%;
   }
 
-  .swiper-slide-prev .carousel-slide,
-  .swiper-slide-next .carousel-slide {
+  .swiper-slide-prev .carousel-slide-teams,
+  .swiper-slide-next .carousel-slide-teams {
     transform: scale(0.9);
     transition: transform .3s ease, translate .3s ease;
   }
 
-  .swiper-slide-active .carousel-slide {
+  .swiper-slide-active .carousel-slide-teams {
     transform: scale(1);
     transition: transform .3s ease, translate .3s ease;
   }
 }
 
-.carousel-slide {
+.carousel-slide-teams {
   position: relative;
-
-  .image {
+    .image {
     position: relative;
-    aspect-ratio: 303 / 657;
+    // aspect-ratio: 303 / 657;
+    border-radius: 16px;
+    @include mediumScreens {
+      border-radius: 32px;
+    }
+  }
+
+  .image img {
+    // position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+}
+
+.carousel-slide-team {
+  position: relative;
+    .image {
+    position: relative;
+    // aspect-ratio: 303 / 657;
     border-radius: 16px;
     @include mediumScreens {
       border-radius: 32px;
@@ -184,14 +213,13 @@
     left: 50%;
     translate: -50% -50%;
     width: 460px;
-    height: 460px;
+    height: auto;
     max-width: 100%;
   }
 
   .media .lottie-tab-container .offset-5 {
     @include mediumScreens {
       width: 510px;
-      height: 510px;
       max-width: calc(100% + 50px);
     }
   }
@@ -199,7 +227,6 @@
   .media .lottie-tab-container .offset-10 {
     @include mediumScreens {
       width: 560px;
-      height: 560px;
       max-width: calc(100% + 100px);
     }
   }
@@ -207,7 +234,6 @@
   .media .lottie-tab-container .offset-15 {
     @include mediumScreens {
       width: 610px;
-      height: 610px;
       max-width: calc(100% + 150px);
     }
   }
@@ -266,7 +292,7 @@
     letter-spacing: -0.01em;
   }
 
-  .content .paragraph {
+  .content .paragraph-teams {
     @include fontBodyXXL;
     line-height: 1.5;
     margin-top: 24px;

@@ -1,4 +1,4 @@
-import '../../scss/pages/teams.scss';
+// import '../../scss/pages/teams.scss';
 
 // Swiper
 import 'swiper/css';
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Hero Carousel
-const heroCarousel = () => {
+export const heroCarousel = () => {
     const swiperMainContainer = document.querySelector('.swiper-carousel');
 
     if (swiperMainContainer) {

@@ -17,7 +17,6 @@ html, body {
 
   width: 100%;
   min-height: 100%;
-  overscroll-behavior: none;
 }
 
 h1 {
@@ -138,7 +137,7 @@ a:focus {
     transform: translate(0, -50%);
     width: 24px;
     height: 24px;
-    background: url('../img/icons/chevron.svg') no-repeat 50% / contain;
+    background: url('~img/icons/chevron.svg') no-repeat 50% / contain;
     pointer-events: none;
   }
 }
@@ -177,7 +176,7 @@ a:focus {
     margin-top: 4px;
     width: 16px;
     height: 16px;
-    background: url('../img/icons/check.svg') no-repeat 50% / contain;
+    background: url('~img/icons/check.svg') no-repeat 50% / contain;
   }
 
   .dropdown-list-item.active:after {
@@ -212,7 +211,7 @@ a:focus {
     transform: translate(0, -50%);
     width: 24px;
     height: 24px;
-    background: url('../img/icons/chevron.svg') no-repeat 50% / contain;
+    background: url('~img/icons/chevron.svg') no-repeat 50% / contain;
     pointer-events: none;
   }
 
@@ -424,6 +423,45 @@ textarea.form-control {
 
   iframe {
     border-radius: inherit;
+  }
+}
+
+.cookie-notice {
+  display: none;
+  position: fixed;
+  padding: 24px 32px;
+  width: 100%;
+  max-width: 460px;
+  left: 30px;
+  bottom: 30px;
+  background: rgba(clr(white), 0.05);
+  box-shadow: 0 24px 84px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(50px);
+  border-radius: 16px;
+  z-index: 2040;
+
+  &:before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 16px;
+    background: url('~img/icons/cookies.svg') no-repeat 50% / contain;
+  }
+
+  .paragraph {
+    @include fontBodyXL;
+    line-height: 1.5;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .buttons .btn {
+    flex: 1;
   }
 }
 

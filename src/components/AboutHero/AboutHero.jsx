@@ -608,7 +608,7 @@ useEffect(()=>{
                 <div class="media">
                   <div
                     class="lottie-animation-container"
-                    data-animation-json="img/about/lottie/head_b.json"
+                    data-animation-json="img/about/lottie/01_flower.json"
                   ></div>
                 </div>
               </div>

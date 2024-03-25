@@ -2,7 +2,8 @@ import gsap from "gsap";
 import { useEffect } from "react"
 import {Expo} from 'gsap';
 import {ScrollToPlugin} from 'gsap/ScrollToPlugin';
-
+// import "../../css/global.50446185a1d427c87a62.css"
+import CookieNotice from "../CookieNotice/CookieNotice";
 
 function Navigation()
 {
@@ -481,217 +482,106 @@ languageSelector()
   togglers.forEach((toggler) => {
       toggler.addEventListener('click', onClick);
   });
+  const fixNavbarOnScroll = () => {
+    const navbar = document.querySelector('header');
+    const triggerPoint = 50;
 
+    const updateNavbar = (e) => {
+        if (window.scrollY > triggerPoint) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    };
+
+    if (navbar) {
+        window.addEventListener('scroll', updateNavbar);
+    }
+};
+
+    fixNavbarOnScroll()
     mobileCollapseMenu()
     handleResize()
     mobileNavigation()  
     
   })
+  
+  
+
     return (
         <>
-             <header>
-          <nav class="navbar">
-            
+            <header>
+        <nav class="navbar">
             <div class="container">
-              
-              <div class="navbar-header">
-                
-                <a href="index.html" class="navbar-brand">
-                  
-                  <img src="img/logo.svg" alt="SurePeople" />
-                </a>
-                <div class="dropdown js-dropdown js-language-selector">
-                  
-                  <div class="dropdown-toggler js-dropdown-toggler">
-                    English
-                  </div>
-                  <div class="dropdown-menu">
-                    
-                    <ul class="dropdown-list">
-                      
-                      <li class="dropdown-list-item active">
-                        English (EN)
-                      </li>
-                      <li class="dropdown-list-item">Spanish (SP)</li>
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">
+                        <img src="img/logo.svg" alt="SurePeople" />
+                    </a>
+                    <div class="dropdown js-dropdown js-language-selector">
+                        <div class="dropdown-toggler js-dropdown-toggler">English</div>
+                        <div class="dropdown-menu">
+                            <ul class="dropdown-list">
+                                <li class="dropdown-list-item active">English (EN)</li>
+                                <li class="dropdown-list-item">Spanish (SP)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="button" class="navbar-menu-toggler">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+                <div class="navbar-menu">
+                    <div class="decor">
+                        <img
+                            src="img/ColorsMenu.svg"
+                            alt=""
+                        />
+                    </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="teams" class="nav-link">Team Leaders</a></li>
+                        <li class="nav-item"><a href="enterprise" class="nav-link">Enterprise Solution</a></li>
+                        <li class="nav-item"><a href="pricing" class="nav-link">Plans & Pricing</a></li>
                     </ul>
-                  </div>
-                </div>
-                <button type="button" class="navbar-menu-toggler">
-                  
-                  <span></span> <span></span> <span></span>
-                </button>
-              </div>
-              <div class="navbar-menu">
-                
-                <div class="decor">
-                  
-                  <img src="img/ColorsMenu.svg" alt="" />
-                </div>
-                <ul class="navbar-nav">
-                  
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Team Leaders
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Enterprise Solution
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      Plans & Pricing
-                    </a>
-                  </li>
-                </ul>
-                <div class="navbar-menu-mobile">
-                  
-                  <ul class="navbar-nav-mobile">
-                    
-                    <li class="nav-item">
-                      
-                      <a href="#" class="nav-link js-collapse-menu">
-                        Company
-                      </a>
-                      <div class="collapse-menu js-collapse-menu">
-                        
-                        <ul class="collapse-menu-list">
-                          
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Research
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Team Collaboration
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Portfolio Insights
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Data Integration
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              ESG Research
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Active Ownership
-                            </a>
-                          </li>
+                    <div class="navbar-menu-mobile">
+                        <ul class="navbar-nav-mobile">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link js-collapse-menu">Company</a>
+                                <div class="collapse-menu">
+                                    <ul class="collapse-menu-list">
+                                        <li class="collapse-menu-list-item"><a href="about" class="collapse-menu-list-link">About</a></li>
+                                        <li class="collapse-menu-list-item"><a href="leadership" class="collapse-menu-list-link">Leadership</a></li>
+                                        <li class="collapse-menu-list-item"><a href="difference" class="collapse-menu-list-link">Our Difference</a></li>
+                                        <li class="collapse-menu-list-item"><a href="https://www.surepeople.com/community/" class="collapse-menu-list-link">Evolve Blog</a></li>
+                                        <li class="collapse-menu-list-item"><a href="https://www.surepeople.com/community/blog/category/company-news/" class="collapse-menu-list-link">News</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a href="#" class="nav-link">Sales</a></li>
+                            <li class="nav-item"><a href="support" class="nav-link">Support</a></li>
                         </ul>
-                      </div>
-                    </li>
-                    <li class="nav-item">
-                      
-                      <a href="#" class="nav-link js-collapse-menu">
-                        Sales
-                      </a>
-                      <div class="collapse-menu js-collapse-menu">
-                        
-                        <ul class="collapse-menu-list">
-                          
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Research
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Team Collaboration
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Portfolio Insights
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Data Integration
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              ESG Research
-                            </a>
-                          </li>
-                          <li class="collapse-menu-list-item">
-                            <a href="#" class="collapse-menu-list-link">
-                              Active Ownership
-                            </a>
-                          </li>
+                        <ul class="navbar-nav-buttons">
+                            <li class="nav-item"><a href="https://www.surepeople.com/sp/signin/" class="btn btn-primary">Login</a></li>
+                            <li class="nav-item"><a href="book-a-demo" class="btn btn-blue">Schedule Demo</a></li>
                         </ul>
-                      </div>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#" class="nav-link">
-                        Support
-                      </a>
-                    </li>
-                  </ul>
-                  <ul class="navbar-nav-buttons">
-                    
-                    <li class="nav-item">
-                      <a href="#" class="btn btn-primary">
-                        Login
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#" class="btn btn-blue">
-                        Try It Free
-                      </a>
-                    </li>
-                  </ul>
-                  <ul class="navbar-nav-social">
-                    
-                    <li class="nav-item">
-                      <a href="#">
-                        <img src="img/icons/facebook-2.svg" alt="Facebook" />
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">
-                        <img src="img/icons/linkedin-2.svg" alt="LinkedIn" />
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">
-                        <img src="img/icons/x-2.svg" alt="X" />
-                      </a>
-                    </li>
-                  </ul>
+                        <ul class="navbar-nav-social">
+                            <li class="nav-item"><a href="https://www.facebook.com/SurePeopleSocial/" target="_blank"><img src="img/icons/facebook-2.svg" alt="Facebook" /></a></li>
+                            <li class="nav-item"><a href="https://www.linkedin.com/company/surepeople/" target="_blank"><img src="img/icons/linkedin-2.svg" alt="LinkedIn" /></a></li>
+                            <li class="nav-item"><a href="https://twitter.com/SurePeople/" target="_blank"><img src="img/icons/x-2.svg" alt="X" /></a></li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
-              <div class="navbar-actions">
-                
-                <ul class="navbar-nav">
-                  
-                  <li class="nav-item">
-                    <a href="#" class="btn btn-primary">
-                      Login
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="btn btn-blue">
-                      Try It Free
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                <div class="navbar-actions">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="https://www.surepeople.com/sp/signin/" class="btn btn-primary">Login</a></li>
+                        <li class="nav-item"><a href="book-a-demo" class="btn btn-blue">Schedule Demo</a></li>
+                    </ul>
+                </div>
             </div>
-          </nav>
-          </header>
-        
+        </nav>
+    </header>
+
         </>
     )
 }

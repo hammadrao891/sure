@@ -375,8 +375,8 @@
     top: 70%;
     left: 74.2%;
     @include mediumScreens {
-      top: 76%;
-      left: 75.5%;
+      top: 79%;
+      left: 72%;
     }
   }
 
@@ -585,7 +585,7 @@
 
   .lottie-tab-container > div {
     position: absolute;
-    inset: -50%;
+    inset: -30%;
   }
 
   .lottie-tab-container .lottie-placeholder {

@@ -11,15 +11,17 @@ import {Autoplay} from 'swiper/modules';
 // GSAP
 import {gsap} from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
+import {loadLottie} from '../utils/loadLottie';
 
 document.addEventListener('DOMContentLoaded', () => {
     heroCarousel();
     differenceGraphic();
     tabsSection().then(r => {});
+    handleLottieAnimations();
 });
 
 // Hero Carousel
-const heroCarousel = () => {
+export const heroCarousel = () => {
     const swiperMainContainer = document.querySelector('.swiper-carousel');
 
     if (swiperMainContainer) {
@@ -53,7 +55,7 @@ const heroCarousel = () => {
 };
 
 // Difference graphic
-const differenceGraphic = () => {
+export const differenceGraphic = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const prism = document.querySelectorAll('.difference-prism .prism');
@@ -80,16 +82,16 @@ const differenceGraphic = () => {
         yPercent: 25,
     });
 
-    const prismDuration = 0.6;
+    const prismDuration = 0.3;
     const prismEase = 'expo.out';
 
-    const ringsDuration = 0.6;
+    const ringsDuration = 0.3;
     const ringsEase = 'expo.out';
 
-    const pointsDuration = 0.6;
+    const pointsDuration = 0.3;
     const pointsEase = 'back.out(1.5)';
 
-    const contentsDuration = 0.6;
+    const contentsDuration = 0.3;
     const contentsEase = 'expo.out';
 
     // Create a GSAP timeline
@@ -97,28 +99,29 @@ const differenceGraphic = () => {
 
     tl.to(prism[0], {scale: 1, opacity: 1, duration: prismDuration, ease: prismEase});
 
-    tl.to(rings[0], {scale: 1, duration: ringsDuration, ease: ringsEase});
-    tl.to(points[1], {scale: 1, duration: pointsDuration, ease: pointsEase});
+    tl.add('content');
 
-    tl.to(rings[1], {scale: 1, duration: ringsDuration, ease: ringsEase}, `>-50%`);
-    tl.to(content[3], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `>-50%`);
+    for (let index = 0; index < 1; index++) {
+        tl.to(rings[index], {scale: 1, duration: ringsDuration, ease: ringsEase}, `content+=${index * ringsDuration}`);
+    }
 
-    tl.to(rings[2], {scale: 1, duration: ringsDuration, ease: ringsEase}, `>-50%`);
-    tl.to(content[2], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `>-50%`);
+    tl.to(points[1], {scale: 1, duration: pointsDuration, ease: pointsEase}, `>`);
 
-    tl.to(rings[3], {scale: 1, duration: ringsDuration, ease: ringsEase}, `>-50%`);
-    tl.to(content[4], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `>-50%`);
+    for (let index = 1; index < 5; index++) {
+        tl.to(rings[index], {scale: 1, duration: ringsDuration, ease: ringsEase}, `content+=${index * ringsDuration}`);
+    }
 
-    tl.to(rings[4], {scale: 1, duration: ringsDuration, ease: ringsEase});
-    tl.to(points[2], {scale: 1, duration: pointsDuration, ease: pointsEase});
+    tl.to(points[2], {scale: 1, duration: pointsDuration, ease: pointsEase}, `>`);
 
-    tl.to(rings[5], {scale: 1, duration: ringsDuration, ease: ringsEase}, `>-50%`);
-    tl.to(points[0], {scale: 1, duration: pointsDuration, ease: pointsEase}, `>-50%`);
-    tl.to(content[5], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `>-50%`);
+    for (let index = 5; index < 6; index++) {
+        tl.to(rings[index], {scale: 1, duration: ringsDuration, ease: ringsEase}, `content+=${index * ringsDuration}`);
+    }
 
-    tl.to(rings[6], {scale: 1, duration: ringsDuration, ease: ringsEase}, `>-50%`);
-    tl.to(content[0], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `>-50%`);
-    tl.to(content[1], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase});
+    tl.to(points[0], {scale: 1, duration: pointsDuration, ease: pointsEase}, `>`);
+
+    for (let index = 0; index < 6; index++) {
+        tl.to(content[index], {opacity: 1, yPercent: 0, duration: contentsDuration, ease: contentsEase}, `content+=${index * contentsDuration}`);
+    }
 
     // Use ScrollTrigger to trigger the animation when scrolling to the element
     ScrollTrigger.create({
@@ -169,7 +172,7 @@ const differenceGraphic = () => {
 };
 
 // Tabs
-const tabsSection = () => {
+export const tabsSection = () => {
     gsap.registerPlugin(ScrollTrigger);
 
     const scroller = document.querySelector('.scrollTrigger-scroller');
@@ -232,7 +235,7 @@ const tabsSection = () => {
 
                         if (window.innerWidth > 1023) {
                             document.querySelector('.tab-container').style.minHeight = document.querySelectorAll('.tab-item')[tabIndex].querySelector('.layout').clientHeight + 40 + 'px';
-                            ScrollTrigger.refresh();
+                            ScrollTrigger.getById('tabScroller').refresh();
                         }
 
                         item.classList.remove('active');
@@ -243,6 +246,8 @@ const tabsSection = () => {
                         gsap.set(selectedTab.querySelector('.media'), {xPercent: 5, scale: 1});
 
                         const tl = gsap.timeline({paused: true, ease: 'ease.out'});
+
+                        const activeLottie = item.querySelector('.lottie-animation-container');
 
                         tl.to(selectedTab, {
                             duration: 0.2,
@@ -256,6 +261,8 @@ const tabsSection = () => {
                         }, '<');
 
                         tl.play();
+
+                        activeLottie.lottieAnimation.goToAndPlay(0);
 
                         isSwitching = false;
                     }
@@ -292,7 +299,7 @@ const tabsSection = () => {
                     scrollTrigger = ScrollTrigger.create({
                         trigger: scroller,
                         id: 'tabScroller',
-                        start: () => `top+=${offset()}px center-=${offset()}px`,
+                        start: () => `top+=${offset() - document.querySelector('header').clientHeight}px center-=${offset()}px`,
                         end: () => `top+=${(window.innerHeight * tabItems.length)}px center`,
                         pin: true,
                         scrub: true,
@@ -308,6 +315,12 @@ const tabsSection = () => {
 
                             // Switch to the new tab
                             switchTabWithAnimation(tabIndex);
+
+                            ScrollTrigger.getAll().forEach((st) => {
+                                if (!st.trigger.classList.contains('tab-container') && !st.trigger.classList.contains('tab-navigation')) {
+                                    st.refresh();
+                                }
+                            });
                         },
                     });
                 }
@@ -323,4 +336,25 @@ const tabsSection = () => {
 
     // Return the promise from createScrollTrigger
     return createScrollTrigger();
+};
+
+// Load Lottie animation for a single element
+export const handleLottieAnimations = async () => {
+    const animationContainers = document.querySelectorAll('.lottie-animation-container');
+
+    for (const container of animationContainers) {
+        const jsonFile = container.getAttribute('data-animation-json');
+        const animation = await loadLottie(jsonFile, container);
+
+        container.lottieAnimation = animation;
+
+        if (animation) {
+            // ScrollTrigger.create({
+            //     trigger: container,
+            //     start: 'top center',
+            //     end: 'bottom center',
+            //     onEnter: () => animation.play(),
+            // });
+        }
+    }
 };

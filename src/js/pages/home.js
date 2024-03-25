@@ -12,14 +12,18 @@ import 'swiper/css/pagination';
 // GSAP
 import {gsap} from 'gsap';
 
+// Video Modal
+import {videoModal} from '../utils/videoModal';
+
 document.addEventListener('DOMContentLoaded', () => {
     heroCarousel();
     customerTestimonials();
     swiperCustomerTestimonials();
+    videoModal();
 });
 
 // Carousel
-const heroCarousel = () => {
+export const heroCarousel = () => {
     Swiper.use([Thumbs]);
 
     const swiperThumbsContainer = document.querySelector('.swiper-carousel-pagination');
@@ -166,7 +170,7 @@ const heroCarousel = () => {
     }
 };
 
-const customerTestimonials = () => {
+export const customerTestimonials = () => {
     // Function to update padding based on the active element
     function updatePadding() {
         const children = document.querySelectorAll('.js-customer-testimonials-item');
@@ -249,7 +253,7 @@ const customerTestimonials = () => {
         updatePadding();
         updateClickListeners();
     }
-    
+
     // Initial setup
     updatePadding();
     updateClickListeners();
@@ -259,7 +263,7 @@ const customerTestimonials = () => {
 };
 
 // Customer testimonials swiper
-const swiperCustomerTestimonials = () => {
+export const swiperCustomerTestimonials = () => {
     const customerTestimonials = document.querySelector('.js-customer-testimonials');
 
     let swiper;
@@ -288,6 +292,7 @@ const swiperCustomerTestimonials = () => {
             swiperSlideDiv.append(testimonial.children[0].cloneNode(true));
 
             swiperSlideDiv.querySelector('.hidden-info').remove();
+            swiperSlideDiv.children[0].classList.remove('js-customer-testimonial');
 
             swiperWrapperDiv.append(swiperSlideDiv);
         });
@@ -313,24 +318,30 @@ const swiperCustomerTestimonials = () => {
     };
 
     const init = () => {
-        if (window.innerWidth < 1024) {
-            if (!swiper) {
-                createBaseMarkup();
-                createSwiper();
-            } else if (swiper.destroyed) {
-                createBaseMarkup();
-                createSwiper();
-            }
-        } else {
-            if (swiper) {
-                if (swiper.el !== undefined) {
-                    swiper.el.remove();
-                    swiper.destroy(true, true);
-                }
-            }
+        if (!swiper) {
+            createBaseMarkup();
+            createSwiper();
         }
+
+        // if (window.innerWidth < 1024) {
+        //     if (!swiper) {
+        //         createBaseMarkup();
+        //         createSwiper();
+        //     } else if (swiper.destroyed) {
+        //         createBaseMarkup();
+        //         createSwiper();
+        //     }
+        // } else {
+        //     if (swiper) {
+        //         if (swiper.el !== undefined) {
+        //             swiper.el.remove();
+        //             swiper.destroy(true, true);
+        //         }
+        //     }
+        // }
     };
 
     init();
     window.addEventListener('resize', init);
+
 };

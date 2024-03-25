@@ -9,10 +9,14 @@ gsap.registerPlugin(ScrollTrigger);
 // Load Prism Lottie
 import {loadLottie} from '../utils/loadLottie';
 
+// Video Modal
+import {videoModal} from '../utils/videoModal';
+
 document.addEventListener('DOMContentLoaded', () => {
     handleLottieAnimations().then(r => {});
     ourLeadership();
     tooltip();
+    videoModal();
 });
 
 // Load Lottie animation for a single element

@@ -10,7 +10,7 @@ import 'swiper/css/pagination';
 import Swiper from "swiper";
 // import '../../scss/app.scss';
 
-import "../../css/global.c12ee4b9163e7c1766c1.css"
+// import "../../css/global.c12ee4b9163e7c1766c1.css"
 import HomepageHeading from '../HomepageHeading/HomepageHeading.jsx';
 import CarouselDescription from '../CarouselDescription/CarouselDescription.jsx';
 import LearnMoreButton from '../LearnMoreButton/LearnMoreButton.jsx';
@@ -238,7 +238,7 @@ function Carousel ()
                       </div>
                     </div>
                   </div>
-                  <div class="swiper-carousel">
+                  <div class="swiper-carousel" >
                     
                     <div class="swiper-wrapper">
                       

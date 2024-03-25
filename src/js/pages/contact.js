@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mapMarkers();
 });
 
-const mapMarkers = () => {
+export const mapMarkers = () => {
     const markers = document.querySelectorAll('.map-markers .marker');
     const mobileMarkerCaption = document.querySelector('.mobile-marker-caption');
 

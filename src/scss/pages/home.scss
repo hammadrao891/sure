@@ -667,6 +667,9 @@
 .swiper-testimonials {
   margin-left: var(--globalGutter);
   margin-right: var(--globalGutter);
+  @include customScreens(1024px) {
+    display: none;
+  }
 
   .customer-testimonial {
     height: calc(100vw * (574 / 1024));

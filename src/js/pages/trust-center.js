@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Load Lottie animation for a single element
-const handleLottieAnimations = async () => {
+export const handleLottieAnimations = async () => {
     const animationContainers = document.querySelectorAll('.lottie-animation-container');
 
     for (const container of animationContainers) {

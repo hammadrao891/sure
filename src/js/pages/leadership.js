@@ -130,7 +130,7 @@ const teamModal = () => {
                 modal.classList.remove('open');
                 modal.remove();
 
-                modalHexagon.destroy();
+                lottieHexagon.destroy();
             }
         }, '<+0.1').to(modalContent, {
             duration: 0.2,

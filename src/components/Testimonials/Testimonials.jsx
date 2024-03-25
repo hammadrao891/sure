@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import {gsap} from 'gsap';
-import "../../css/index.5165d336f6d347ebc651.css"
-import "../../css/global.c12ee4b9163e7c1766c1.css"
 import "../../scss/pages/home.scss"
 import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
+import { videoModal } from "../../js/utils/videoModal";
 import TestimonialHeading from "../TestimonialHeading/TestimonialHeading";
 function Testimonials()
 {
-useEffect(()=>{
-const customerTestimonials = () => {
+useEffect(()=>{const customerTestimonials = () => {
+
     // Function to update padding based on the active element
     function updatePadding() {
         const children = document.querySelectorAll('.js-customer-testimonials-item');
@@ -92,7 +91,7 @@ const customerTestimonials = () => {
         updatePadding();
         updateClickListeners();
     }
-    
+
     // Initial setup
     updatePadding();
     updateClickListeners();
@@ -131,6 +130,7 @@ const swiperCustomerTestimonials = () => {
             swiperSlideDiv.append(testimonial.children[0].cloneNode(true));
 
             swiperSlideDiv.querySelector('.hidden-info').remove();
+            swiperSlideDiv.children[0].classList.remove('js-customer-testimonial');
 
             swiperWrapperDiv.append(swiperSlideDiv);
         });
@@ -156,31 +156,39 @@ const swiperCustomerTestimonials = () => {
     };
 
     const init = () => {
-        if (window.innerWidth < 1024) {
-            if (!swiper) {
-                createBaseMarkup();
-                createSwiper();
-            } else if (swiper.destroyed) {
-                createBaseMarkup();
-                createSwiper();
-            }
-        } else {
-            if (swiper) {
-                if (swiper.el !== undefined) {
-                    swiper.el.remove();
-                    swiper.destroy(true, true);
-                }
-            }
+        if (!swiper) {
+            createBaseMarkup();
+            createSwiper();
         }
+
+        // if (window.innerWidth < 1024) {
+        //     if (!swiper) {
+        //         createBaseMarkup();
+        //         createSwiper();
+        //     } else if (swiper.destroyed) {
+        //         createBaseMarkup();
+        //         createSwiper();
+        //     }
+        // } else {
+        //     if (swiper) {
+        //         if (swiper.el !== undefined) {
+        //             swiper.el.remove();
+        //             swiper.destroy(true, true);
+        //         }
+        //     }
+        // }
     };
 
     init();
     window.addEventListener('resize', init);
 };
 customerTestimonials()
+videoModal()
 swiperCustomerTestimonials()
-})
-    return(
+},[])
+
+
+return(
         <>
             <section class="shared-section section-testimonials">
               
@@ -198,9 +206,9 @@ swiperCustomerTestimonials()
                 />
               </div>
               <TestimonialHeading/>
-              <div class="customer-testimonials js-customer-testimonials" >
+              <div class="customer-testimonials js-customer-testimonials js-reveal-on-scroll">
                     <div class="customer-testimonials-item js-customer-testimonials-item active">
-                        <div class="customer-testimonial">
+                        <div class="customer-testimonial js-customer-testimonial js-video-modal">
                             <div class="hidden-info">
                                 <div class="name">Bill O'Brien, Ph.D.</div>
                             </div>
@@ -218,10 +226,15 @@ swiperCustomerTestimonials()
                                     <p class="job">CEO, Mission Development Corp.</p>
                                 </div>
                             </div>
+                            <div class="js-video">
+                                <div class="js-video">
+                                    <div class="vimeo"><iframe src="https://player.vimeo.com/video/853443308?api=1&player_id=player2"  style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="customer-testimonials-item js-customer-testimonials-item">
-                        <div class="customer-testimonial">
+                        <div class="customer-testimonial js-customer-testimonial js-video-modal">
                             <div class="hidden-info">
                                 <div class="name">Jennifer Braun</div>
                             </div>
@@ -239,10 +252,15 @@ swiperCustomerTestimonials()
                                     <p class="job">Director of Workforce & Organizational Development</p>
                                 </div>
                             </div>
+                            <div class="js-video">
+                                <div class="js-video">
+                                    <div class="vimeo"><iframe src="https://player.vimeo.com/video/857099921?api=1&player_id=player4"  style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="customer-testimonials-item js-customer-testimonials-item">
-                        <div class="customer-testimonial">
+                        <div class="customer-testimonial js-customer-testimonial js-video-modal">
                             <div class="hidden-info">
                                 <div class="name">Inez Stewart, M.Ed.</div>
                             </div>
@@ -260,10 +278,13 @@ swiperCustomerTestimonials()
                                     <p class="job">Chief Human Resources Officer</p>
                                 </div>
                             </div>
+                            <div class="js-video">
+                                <div class="vimeo"><iframe src="https://player.vimeo.com/video/853849761?api=1&player_id=player1"  style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                            </div>
                         </div>
                     </div>
                     <div class="customer-testimonials-item js-customer-testimonials-item">
-                        <div class="customer-testimonial">
+                        <div class="customer-testimonial js-customer-testimonial js-video-modal">
                             <div class="hidden-info">
                                 <div class="name">Lisa DeAngelis</div>
                             </div>
@@ -281,10 +302,15 @@ swiperCustomerTestimonials()
                                     <p class="job">CEO, Mission Development Corp.</p>
                                 </div>
                             </div>
+                            <div class="js-video">
+                                <div class="js-video">
+                                    <div class="vimeo"><iframe src="https://player.vimeo.com/video/853823544?api=1&player_id=player3"  style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="customer-testimonials-item js-customer-testimonials-item">
-                        <div class="customer-testimonial">
+                        <div class="customer-testimonial js-customer-testimonial js-video-modal">
                             <div class="hidden-info">
                                 <div class="name">Chris Newell</div>
                             </div>
@@ -302,10 +328,16 @@ swiperCustomerTestimonials()
                                     <p class="job">CEO, Mission Development Corp.</p>
                                 </div>
                             </div>
+                            <div class="js-video">
+                                <div class="js-video">
+                                    <div class="vimeo"><iframe src="https://player.vimeo.com/video/853443308?api=1&player_id=player2"  style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
+
         </>
     )
 }
