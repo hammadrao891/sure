@@ -184,9 +184,12 @@ const swiperCustomerTestimonials = () => {
     window.addEventListener('resize', init);
 };
 customerTestimonials()
-videoModal()
+// videoModal()
 swiperCustomerTestimonials()
 },[])
+useEffect(()=>{
+    videoModal()
+})
 
 
 return(

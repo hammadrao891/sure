@@ -369,7 +369,7 @@ function LeadershipMembers()
             const memberLayout = document.createElement('div');
     
             // add classes to modal divs
-            modalClose.classList.add('f-modal-close');
+            modalClose.classList.add('f-modal-close-leadership');
             modalContent.classList.add('f-modal-content');
             memberLayout.classList.add('member-layout');
     
